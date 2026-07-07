@@ -147,7 +147,7 @@ export default function MediaLibraryModal({
         </div>
 
         {/* Content */}
-        <div className="flex-1 overflow-y-auto p-4 custom-scrollbar">
+        <div className="flex-1 overflow-y-auto p-4">
           {activeTab === "library" ? (
             isLoading ? (
               <div className="flex items-center justify-center h-64">
