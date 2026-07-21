@@ -35,7 +35,7 @@ export default function Navbar() {
   return (
     <>
       <nav
-        className="fixed top-0 left-0 right-0 z-50 flex items-center justify-between px-6 md:px-10 h-24 md:h-[132px] bg-nav-bg backdrop-blur-md border-b border-nav-border"
+        className="fixed top-0 left-0 right-0 z-50 flex items-center justify-between px-6 md:px-10 h-24 md:h-[132px] manga-header"
       >
         {/* Logo */}
         <Link href="/" className="flex-shrink-0">
@@ -59,8 +59,8 @@ export default function Navbar() {
               <Link
                 key={href}
                 href={href}
-                className={`relative text-sm font-medium transition-colors duration-200 px-1 py-1 group ${
-                  active ? "text-foreground" : "text-text-muted hover:text-foreground"
+                className={`relative text-sm font-black uppercase tracking-wider transition-all duration-200 px-2 py-1 group ${
+                  active ? "text-foreground" : "text-text-muted hover:text-foreground hover:-translate-y-1 inline-block"
                 }`}
               >
                 {label}
@@ -78,10 +78,9 @@ export default function Navbar() {
             <Link
               href="https://github.com/sponsors/Shreyash0712"
               target="_blank"
-              className="group relative overflow-hidden flex items-center gap-1.5 px-3 py-1.5 text-sm font-medium text-pink-600 dark:text-pink-400 hover:text-white dark:hover:text-white border border-pink-200 dark:border-pink-900 rounded-full bg-background hover:border-pink-500 dark:hover:border-pink-500 transition-colors duration-300 z-10"
+              className="manga-button text-xs ml-2 z-10"
             >
-              <span className="absolute inset-0 bg-pink-500 origin-left scale-x-0 group-hover:scale-x-100 transition-transform duration-300 ease-out -z-10" />
-              <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="currentColor" className="text-pink-500 group-hover:text-white transition-colors duration-300">
+              <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="currentColor" className="mr-1.5">
                 <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/>
               </svg>
               Sponsor
@@ -149,14 +148,13 @@ export default function Navbar() {
           target="_blank"
           onClick={() => setMenuOpen(false)}
           style={{ transitionDelay: menuOpen ? `${links.length * 50}ms` : "0ms" }}
-          className={`group relative overflow-hidden flex items-center gap-2 px-6 py-3 mt-4 text-lg font-semibold text-pink-600 dark:text-pink-400 hover:text-white dark:hover:text-white bg-background border border-pink-200 dark:border-pink-900 hover:border-pink-500 dark:hover:border-pink-500 rounded-full transition-colors duration-300 z-10 ${
+          className={`manga-button mt-4 ${
             menuOpen
               ? "opacity-100 translate-y-0"
               : "opacity-0 translate-y-4"
           }`}
         >
-          <span className="absolute inset-0 bg-pink-500 origin-left scale-x-0 group-hover:scale-x-100 transition-transform duration-300 ease-out -z-10" />
-          <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="currentColor" className="text-pink-500 group-hover:text-white transition-colors duration-300">
+          <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="currentColor" className="mr-2">
             <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/>
           </svg>
           Sponsor

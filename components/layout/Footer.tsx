@@ -75,8 +75,21 @@ export default async function Footer() {
   const hasMoreBlogs = blogs.length > MAX_ITEMS;
 
   return (
-    <footer className="w-full bg-footer-bg border-t border-border-primary">
-      <div className="mx-auto max-w-7xl px-6 md:px-10 py-12 md:py-16">
+    <footer className="w-full bg-footer-bg border-t-[6px] border-border-primary relative overflow-hidden">
+      <div className="screentone-dots opacity-5" />
+      <div className="mx-auto max-w-7xl px-6 md:px-10 py-12 md:py-16 relative z-10">
+
+        {/* TO BE CONTINUED Banner */}
+        <div className="w-full flex justify-center mb-16 relative">
+          <div className="absolute inset-x-0 top-1/2 -translate-y-1/2 border-b-4 border-border-primary"></div>
+          <div className="bg-footer-bg px-8 relative z-10 flex flex-col items-center">
+             <div className="border-[4px] border-border-primary bg-background px-6 py-3 shadow-[8px_8px_0px_0px_var(--border-primary)] transform -rotate-2 hover:rotate-0 transition-transform">
+               <h2 className="text-3xl md:text-5xl font-black italic uppercase tracking-tighter text-foreground">
+                 To Be Continued...
+               </h2>
+             </div>
+          </div>
+        </div>
 
         {/* Top section: Logo + columns */}
         <div className="flex flex-col gap-12 lg:flex-row lg:gap-16">
@@ -106,7 +119,7 @@ export default async function Footer() {
                     href={social.url}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="p-2.5 rounded-lg border border-border-primary bg-background text-text-muted hover:text-foreground hover:border-foreground hover:shadow-sm transition-all duration-200 flex items-center justify-center"
+                    className="p-2.5 bg-background text-text-primary border-[3px] border-border-primary hover:-translate-y-1 hover:shadow-[6px_6px_0px_0px_var(--border-primary)] hover:bg-[var(--accent-manga-magenta)] hover:text-white transition-all duration-200 flex items-center justify-center manga-panel"
                     title={social.name}
                   >
                     <SocialIcon name={social.name} className="w-4 h-4" />
@@ -121,7 +134,7 @@ export default async function Footer() {
 
             {/* Pages */}
             <div className="min-w-[120px]">
-              <p className="text-xs font-semibold uppercase tracking-widest text-text-muted mb-5">
+              <p className="text-xs font-black uppercase tracking-widest text-text-primary mb-5 kinetic-text-sub">
                 Pages
               </p>
               <ul className="flex flex-col gap-2.5">
@@ -143,7 +156,7 @@ export default async function Footer() {
 
             {/* Projects */}
             <div className="min-w-[140px]">
-              <p className="text-xs font-semibold uppercase tracking-widest text-text-muted mb-5">
+              <p className="text-xs font-black uppercase tracking-widest text-text-primary mb-5 kinetic-text-sub">
                 Projects
               </p>
               {visibleProjects.length === 0 ? (
@@ -179,7 +192,7 @@ export default async function Footer() {
 
             {/* Blog */}
             <div className="min-w-[140px]">
-              <p className="text-xs font-semibold uppercase tracking-widest text-text-muted mb-5">
+              <p className="text-xs font-black uppercase tracking-widest text-text-primary mb-5 kinetic-text-sub">
                 Blog
               </p>
               {visibleBlogs.length === 0 ? (
@@ -217,12 +230,12 @@ export default async function Footer() {
         </div>
 
         {/* Divider */}
-        <div className="mt-12 border-t border-border-primary" />
+        <div className="mt-12 border-t-[4px] border-border-primary" />
 
         {/* Bottom Section */}
-        <div className="mt-6 flex flex-col sm:flex-row items-center justify-between text-sm text-text-muted">
+        <div className="mt-6 flex flex-col sm:flex-row items-center justify-between text-sm text-text-primary font-bold uppercase tracking-wider">
           <p>
-            © {new Date().getFullYear()} All rights reserved.
+            © {new Date().getFullYear()} Shreyash Swami. All rights reserved.
           </p>
           <div className="mt-4 sm:mt-0">
             <Link href="/sitemap" className="hover:text-foreground transition-colors">

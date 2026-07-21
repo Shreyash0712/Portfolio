@@ -42,9 +42,9 @@ export default function ProjectList({ initialProjects, hideSearch = false }: Pro
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
               </svg>
             </div>
-            <input
+              <input
               type="text"
-              className="block w-full pl-12 pr-4 py-4 text-base text-foreground bg-hover-bg border border-border-primary rounded-2xl focus:bg-background focus:ring-4 focus:ring-border-primary focus:border-text-muted focus:outline-none transition-all placeholder-text-muted"
+              className="block w-full pl-12 pr-4 py-4 text-base text-foreground bg-hover-bg border-[3px] border-border-primary focus:bg-background focus:ring-0 focus:shadow-[4px_4px_0px_0px_var(--border-primary)] focus:outline-none transition-all placeholder-text-muted font-bold uppercase tracking-wider"
               placeholder="Search projects by name, description, or technology..."
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
@@ -54,7 +54,7 @@ export default function ProjectList({ initialProjects, hideSearch = false }: Pro
       )}
 
       {filteredProjects.length === 0 ? (
-        <div className="text-center py-12 bg-footer-bg rounded-2xl border border-border-primary">
+        <div className="text-center py-12 bg-footer-bg manga-panel">
           <p className="text-text-muted text-lg">No projects found matching "{searchQuery}"</p>
           <button 
             onClick={() => setSearchQuery("")}
@@ -68,7 +68,7 @@ export default function ProjectList({ initialProjects, hideSearch = false }: Pro
           {filteredProjects.map((project) => (
             <div
               key={project.id}
-              className="group flex flex-col bg-background border border-border-primary rounded-2xl overflow-hidden hover:border-text-muted transition-colors"
+              className="group flex flex-col bg-background manga-panel-interactive overflow-hidden"
             >
               <Link href={`/projects/${project.slug}`} className="block relative aspect-[16/10] bg-hover-bg overflow-hidden">
                 {project.cover_image_url ? (
@@ -81,7 +81,7 @@ export default function ProjectList({ initialProjects, hideSearch = false }: Pro
                   />
                 ) : (
                   <div className="absolute inset-0 flex items-center justify-center text-border-primary">
-                    <span className="text-5xl font-medium" style={{ fontFamily: "var(--font-playfair)" }}>
+                    <span className="text-5xl font-black kinetic-text-sub uppercase">
                       {project.title.charAt(0)}
                     </span>
                   </div>
@@ -94,20 +94,20 @@ export default function ProjectList({ initialProjects, hideSearch = false }: Pro
                     project.technologies.map((tech, i) => (
                       <span
                         key={i}
-                        className="text-[10px] font-semibold tracking-wide uppercase text-text-secondary bg-hover-bg px-2 py-0.5 rounded-sm"
+                        className="text-[10px] font-black tracking-wide uppercase text-text-primary border-[2px] border-border-primary px-2 py-0.5 shadow-[2px_2px_0px_0px_var(--border-primary)] bg-[var(--accent-manga-cyan)]"
                       >
                         {tech}
                       </span>
                     ))
                   ) : (
-                    <span className="text-[10px] font-semibold tracking-wide uppercase text-text-muted bg-footer-bg px-2 py-0.5 rounded-sm">
+                    <span className="text-[10px] font-black tracking-wide uppercase text-text-primary border-[2px] border-border-primary px-2 py-0.5 shadow-[2px_2px_0px_0px_var(--border-primary)] bg-[var(--accent-manga-yellow)]">
                       Project
                     </span>
                   )}
                 </div>
 
                 <Link href={`/projects/${project.slug}`} className="block group-hover:text-text-secondary transition-colors">
-                  <h3 className="text-xl font-semibold text-foreground mb-2 leading-tight">
+                  <h3 className="text-xl font-black uppercase kinetic-text-sub mb-2 leading-tight">
                     {project.title}
                   </h3>
                 </Link>
@@ -118,7 +118,7 @@ export default function ProjectList({ initialProjects, hideSearch = false }: Pro
                   </p>
                 )}
 
-                <div className="flex items-center gap-4 mt-auto pt-4 border-t border-border-primary">
+                <div className="flex items-center gap-4 mt-auto pt-4 border-t-[3px] border-border-primary">
                   {project.github_link && (
                     <a
                       href={project.github_link}

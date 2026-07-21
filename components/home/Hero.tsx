@@ -18,43 +18,44 @@ export default async function Hero() {
   }
 
   return (
-    <section className="px-6 pb-6 md:px-10 md:pb-12 flex-1 flex flex-col items-center">
-      <div className="w-full max-w-6xl flex-1 flex flex-col">
+    <section className="pb-6 md:pb-12 flex-1 flex flex-col items-center relative overflow-hidden">
+      <div className="speed-lines-bg" />
+      <div className="w-full flex-1 flex flex-col">
         {/* Intro */}
-        <div className="pt-6 md:pt-10 mb-8">
-          <h1
-            className="text-4xl sm:text-5xl font-medium text-foreground tracking-tight mb-3"
-            style={{ fontFamily: "var(--font-playfair)" }}
-          >
-            Hey, I'm Shreyash.
-          </h1>
-          <p className="text-base md:text-lg text-text-muted max-w-2xl">
-            Welcome to my abode.
-          </p>
+        <div className="pt-6 md:pt-10 mb-8 px-4 md:px-6 relative z-10 w-full">
+          <div className="manga-panel bg-background p-8 md:p-16 panel-skew-1 relative overflow-hidden flex flex-col items-center text-center">
+            <div className="screentone-dots absolute inset-0 opacity-[0.05] pointer-events-none z-0" />
+            <div className="relative z-10 flex flex-col items-center w-full px-2">
+              <h1 className="text-[13vw] md:text-[8rem] leading-none kinetic-text manga-title-font mb-4 tracking-tighter w-full break-words">
+                SHREYASH SWAMI
+              </h1>
+            </div>
+          </div>
         </div>
 
-        {/* GitHub Bento Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 auto-rows-[minmax(110px,auto)]">
+        {/* GitHub Bento Grid (Manga Style - Full Width) */}
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6 auto-rows-[minmax(110px,auto)] p-4 md:p-8 bg-border-primary border-y-[6px] border-border-primary shadow-[0_12px_0px_0px_rgba(0,0,0,0.2)] w-full">
           {error && (
-            <div className="col-span-full p-6 bg-red-50 dark:bg-red-900/20 text-red-600 dark:text-red-400 rounded-3xl border border-red-100 dark:border-red-800 flex items-center gap-3">
+            <div className="col-span-full p-6 bg-background text-foreground border-[4px] border-border-primary flex items-center gap-3 panel-skew-1">
               <FaGithub className="text-xl" />
-              <span>{error}</span>
+              <span className="font-bold uppercase tracking-wider">{error}</span>
             </div>
           )}
 
           {stats && (
             <>
-              {/* Contributions Card - Large */}
-              <div className="col-span-1 md:col-span-1 row-span-3 bg-background text-foreground p-6 md:p-8 rounded-3xl shadow-sm border border-border-primary flex flex-col justify-between hover:shadow-md transition-shadow">
-                <div>
-                  <div className="flex items-center gap-2 mb-2 text-text-muted">
-                    <FiGitCommit className="text-lg" />
-                    <h3 className="font-medium tracking-wide text-xs uppercase">Commits</h3>
+              {/* Contributions Card - Large Splash Panel */}
+              <div className="col-span-1 md:col-span-2 row-span-3 manga-panel p-6 md:p-8 flex flex-col justify-between panel-skew-1 relative overflow-hidden bg-background">
+                <div className="screentone-dots absolute inset-0 opacity-10 pointer-events-none z-0" />
+                <div className="relative z-10">
+                  <div className="inline-flex items-center gap-2 mb-4 bg-foreground text-background px-4 py-2 border-[3px] border-border-primary transform -rotate-2">
+                    <FiGitCommit className="text-xl" />
+                    <h3 className="font-black tracking-widest text-sm uppercase">Commits Log</h3>
                   </div>
-                  <div className="text-4xl md:text-5xl font-bold tracking-tight">
+                  <div className="text-5xl md:text-7xl font-black tracking-tighter kinetic-text-sub mt-2">
                     {stats.commits.toLocaleString()}
                   </div>
-                  <p className="text-text-muted mt-1 text-sm">in the last 28 days</p>
+                  <p className="text-background font-bold uppercase mt-2 text-sm bg-foreground inline-block px-2 border-2 border-border-primary">LAST 28 DAYS</p>
                 </div>
 
                 {/* Interactive Bar Chart Graph */}
@@ -102,53 +103,70 @@ export default async function Hero() {
               </div>
 
               {/* Stars */}
-              <div className="col-span-1 md:col-span-1 row-span-1 bg-background p-6 md:p-8 rounded-3xl shadow-sm border border-border-primary hover:shadow-md transition-shadow flex items-center justify-between">
-                <div className="flex items-center gap-3 text-text-muted">
-                  <FaStar className="text-xl" />
-                  <h3 className="font-medium text-sm uppercase tracking-wider">Total Stars</h3>
+              <div className="col-span-1 md:col-span-1 row-span-1 manga-panel-interactive p-6 flex items-center justify-between panel-skew-2 bg-background relative overflow-hidden">
+                <div className="screentone-lines absolute inset-0 opacity-10 pointer-events-none z-0" />
+                <div className="relative z-10 flex flex-col gap-1">
+                  <div className="flex items-center gap-2">
+                    <FaStar className="text-2xl" />
+                    <h3 className="font-black text-sm uppercase tracking-widest">Total Stars</h3>
+                  </div>
                 </div>
-                <div className="text-3xl md:text-4xl font-bold text-foreground">{stats.totalStars.toLocaleString()}</div>
+                <div className="relative z-10 text-4xl md:text-5xl font-black kinetic-text-sub">{stats.totalStars.toLocaleString()}</div>
               </div>
 
               {/* Followers */}
-              <div className="col-span-1 md:col-span-1 row-span-1 bg-background p-6 md:p-8 rounded-3xl shadow-sm border border-border-primary hover:shadow-md transition-shadow flex items-center justify-between">
-                <div className="flex items-center gap-3 text-text-muted">
-                  <FaUsers className="text-xl" />
-                  <h3 className="font-medium text-sm uppercase tracking-wider">Followers</h3>
+              <div className="col-span-1 md:col-span-1 row-span-1 manga-panel-interactive p-6 flex items-center justify-between panel-skew-3 bg-background relative overflow-hidden">
+                <div className="screentone-dots absolute inset-0 opacity-[0.08] pointer-events-none z-0" />
+                <div className="relative z-10 flex flex-col gap-1">
+                  <div className="flex items-center gap-2">
+                    <FaUsers className="text-2xl" />
+                    <h3 className="font-black text-sm uppercase tracking-widest">Followers</h3>
+                  </div>
                 </div>
-                <div className="text-3xl md:text-4xl font-bold text-foreground">{stats.followers.toLocaleString()}</div>
+                <div className="relative z-10 text-4xl md:text-5xl font-black kinetic-text-sub">{stats.followers.toLocaleString()}</div>
               </div>
 
               {/* PRs */}
-              <div className="col-span-1 md:col-span-1 row-span-1 bg-background p-6 md:p-8 rounded-3xl shadow-sm border border-border-primary hover:shadow-md transition-shadow flex items-center justify-between">
-                <div className="flex items-center gap-3 text-text-muted">
-                  <FaCodeBranch className="text-xl" />
-                  <h3 className="font-medium text-sm uppercase tracking-wider">Pull Requests</h3>
+              <div className="col-span-1 md:col-span-1 row-span-1 manga-panel-interactive p-6 flex items-center justify-between panel-skew-1 bg-background relative overflow-hidden">
+                <div className="screentone-lines absolute inset-0 opacity-[0.15] pointer-events-none z-0" />
+                <div className="relative z-10 flex flex-col gap-1">
+                  <div className="flex items-center gap-2 bg-foreground text-background px-2 py-1 transform rotate-1">
+                    <FaCodeBranch className="text-2xl" />
+                    <h3 className="font-black text-sm uppercase tracking-widest">Pull Requests</h3>
+                  </div>
                 </div>
-                <div className="text-3xl md:text-4xl font-bold text-foreground">{stats.totalPRs.toLocaleString()}</div>
+                <div className="relative z-10 text-4xl md:text-5xl font-black kinetic-text-sub">{stats.totalPRs.toLocaleString()}</div>
               </div>
 
               {/* Repositories */}
-              <div className="col-span-1 md:col-span-1 row-span-1 bg-background p-6 md:p-8 rounded-3xl shadow-sm border border-border-primary hover:shadow-md transition-shadow flex flex-col justify-center">
-                <div className="flex items-center gap-3 mb-2 text-text-muted">
-                  <FaGithub className="text-xl" />
-                  <h3 className="font-medium text-sm uppercase tracking-wider">Repositories</h3>
-                </div>
-                <div className="flex items-baseline gap-3">
-                  <div className="text-3xl md:text-4xl font-bold text-foreground">{stats.totalRepos.toLocaleString()}</div>
-                  <div className="text-xs font-medium text-text-muted border border-border-primary rounded-full px-2 py-0.5">
-                    Contrib: {stats.contributedTo.toLocaleString()}
+              <div className="col-span-1 md:col-span-1 row-span-2 manga-panel-interactive p-6 flex flex-col justify-center panel-skew-2 bg-background relative overflow-hidden">
+                <div className="screentone-lines absolute inset-0 opacity-10 pointer-events-none z-0" />
+                <div className="relative z-10 flex flex-col gap-4">
+                  <div className="inline-flex items-center gap-2 bg-foreground text-background px-3 py-1.5 border-[3px] border-border-primary self-start transform rotate-1">
+                    <FaGithub className="text-xl" />
+                    <h3 className="font-black text-sm uppercase tracking-widest">Repositories</h3>
+                  </div>
+                  <div className="flex items-baseline gap-3 mt-2">
+                    <div className="text-5xl md:text-6xl font-black kinetic-text-sub">{stats.totalRepos.toLocaleString()}</div>
+                    <div className="text-xs font-black uppercase text-foreground bg-background border-[3px] border-border-primary px-3 py-1 shadow-[4px_4px_0px_0px_var(--text-muted)] transform -rotate-2">
+                      Contrib: {stats.contributedTo.toLocaleString()}
+                    </div>
                   </div>
                 </div>
               </div>
 
               {/* Lines of Code */}
-              <div className="col-span-1 md:col-span-1 row-span-1 bg-background p-6 md:p-8 rounded-3xl shadow-sm border border-border-primary hover:shadow-md transition-shadow flex flex-col justify-center">
-                <div className="flex items-center gap-3 mb-2 text-text-muted">
-                  <FaFileCode className="text-xl" />
-                  <h3 className="font-medium text-sm uppercase tracking-wider">Lines of Code</h3>
+              <div className="col-span-1 md:col-span-2 row-span-1 manga-panel-interactive p-8 flex flex-col justify-center panel-skew-3 bg-foreground text-background text-center relative overflow-hidden">
+                <div className="screentone-dots absolute inset-0 opacity-20 pointer-events-none z-0" style={{ filter: "invert(1)" }} />
+                <div className="flex flex-col items-center gap-3 relative z-10">
+                  <div className="inline-flex items-center gap-2 bg-background text-foreground px-4 py-2 border-[3px] border-background transform -rotate-1 shadow-[6px_6px_0px_0px_var(--text-muted)]">
+                    <FaFileCode className="text-xl" />
+                    <h3 className="font-black text-sm uppercase tracking-widest">Lines of Code Written</h3>
+                  </div>
+                  <div className="text-5xl md:text-7xl font-black truncate mt-4 tracking-tighter" style={{textShadow: '4px 4px 0px var(--text-muted)'}}>
+                    ~{stats.linesOfCode.toLocaleString()}
+                  </div>
                 </div>
-                <div className="text-3xl md:text-4xl font-bold text-foreground truncate">~{stats.linesOfCode.toLocaleString()}</div>
               </div>
 
             </>
