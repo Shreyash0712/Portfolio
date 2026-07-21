@@ -19,7 +19,7 @@ export function ThemeToggle() {
   return (
     <button
       onClick={() => setTheme(theme === "dark" ? "light" : "dark")}
-      className="p-2 rounded-md hover:bg-hover-bg transition-colors flex items-center justify-center text-text-secondary hover:text-foreground"
+      className="cursor-target p-2 rounded-md hover:bg-hover-bg transition-colors flex items-center justify-center text-text-secondary hover:text-foreground"
       aria-label="Toggle Theme"
     >
       {theme === "dark" ? <FiSun className="w-5 h-5" /> : <FiMoon className="w-5 h-5" />}

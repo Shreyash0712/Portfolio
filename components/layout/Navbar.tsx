@@ -38,7 +38,7 @@ export default function Navbar() {
         className="fixed top-0 left-0 right-0 z-50 flex items-center justify-between px-6 md:px-10 h-24 md:h-[132px] manga-header"
       >
         {/* Logo */}
-        <Link href="/" className="flex-shrink-0">
+        <Link href="/" className="cursor-target flex-shrink-0">
           <div className="relative h-16 w-16 md:h-[88px] md:w-[88px]">
             <Image
               src="/Logo.svg"
@@ -59,7 +59,7 @@ export default function Navbar() {
               <Link
                 key={href}
                 href={href}
-                className={`relative text-sm font-black uppercase tracking-wider transition-all duration-200 px-2 py-1 group ${
+                className={`cursor-target relative text-sm font-black uppercase tracking-wider transition-all duration-200 px-2 py-1 group ${
                   active ? "text-foreground" : "text-text-muted hover:text-foreground hover:-translate-y-1 inline-block"
                 }`}
               >
@@ -78,7 +78,7 @@ export default function Navbar() {
             <Link
               href="https://github.com/sponsors/Shreyash0712"
               target="_blank"
-              className="manga-button text-xs ml-2 z-10"
+              className="cursor-target manga-button text-xs ml-2 z-10"
             >
               <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="currentColor" className="mr-1.5">
                 <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/>
@@ -96,7 +96,7 @@ export default function Navbar() {
           id="mobile-menu-toggle"
           aria-label={menuOpen ? "Close menu" : "Open menu"}
           onClick={() => setMenuOpen((prev) => !prev)}
-          className="md:hidden flex flex-col justify-center items-center gap-1.5 w-5 h-5 rounded-md hover:bg-hover-bg transition-colors"
+          className="cursor-target md:hidden flex flex-col justify-center items-center gap-1.5 w-5 h-5 rounded-md hover:bg-hover-bg transition-colors"
         >
           <span
             className={`block h-0.5 w-5 bg-foreground rounded transition-all duration-300 origin-center ${
@@ -132,7 +132,7 @@ export default function Navbar() {
               href={href}
               onClick={() => setMenuOpen(false)}
               style={{ transitionDelay: menuOpen ? `${i * 50}ms` : "0ms" }}
-              className={`text-xl font-semibold tracking-tight transition-all duration-300 ${
+              className={`cursor-target text-xl font-semibold tracking-tight transition-all duration-300 ${
                 menuOpen
                   ? "opacity-100 translate-y-0"
                   : "opacity-0 translate-y-4"
@@ -148,7 +148,7 @@ export default function Navbar() {
           target="_blank"
           onClick={() => setMenuOpen(false)}
           style={{ transitionDelay: menuOpen ? `${links.length * 50}ms` : "0ms" }}
-          className={`manga-button mt-4 ${
+          className={`cursor-target manga-button mt-4 ${
             menuOpen
               ? "opacity-100 translate-y-0"
               : "opacity-0 translate-y-4"

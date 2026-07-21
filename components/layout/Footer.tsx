@@ -96,7 +96,7 @@ export default async function Footer() {
 
           {/* Brand */}
           <div className="flex-shrink-0 flex flex-col items-start gap-4">
-            <Link href="/">
+            <Link href="/" className="cursor-target">
               <div className="relative h-16 w-16 md:h-20 md:w-20">
                 <Image
                   src="/Logo.svg"
@@ -119,7 +119,7 @@ export default async function Footer() {
                     href={social.url}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="p-2.5 bg-background text-text-primary border-[3px] border-border-primary hover:-translate-y-1 hover:shadow-[6px_6px_0px_0px_var(--border-primary)] hover:bg-[var(--accent-manga-magenta)] hover:text-white transition-all duration-200 flex items-center justify-center manga-panel"
+                    className="cursor-target p-2.5 bg-background text-text-primary border-[3px] border-border-primary hover:-translate-y-1 hover:shadow-[6px_6px_0px_0px_var(--border-primary)] hover:bg-[var(--accent-manga-magenta)] hover:text-white transition-all duration-200 flex items-center justify-center manga-panel"
                     title={social.name}
                   >
                     <SocialIcon name={social.name} className="w-4 h-4" />
@@ -142,7 +142,7 @@ export default async function Footer() {
                   <li key={href}>
                     <Link
                       href={href}
-                      className="text-sm text-text-secondary hover:text-foreground transition-colors duration-200 flex items-center gap-0.5 group"
+                      className="cursor-target text-sm text-text-secondary hover:text-foreground transition-colors duration-200 flex items-center gap-0.5 group"
                     >
                       {label}
                       <span className="opacity-0 group-hover:opacity-100 transition-opacity duration-150 text-xs leading-none">
@@ -180,7 +180,7 @@ export default async function Footer() {
                     <li className="mt-1">
                       <Link
                         href="/projects"
-                        className="text-sm font-medium text-text-muted hover:text-foreground transition-colors duration-200 flex items-center gap-1"
+                        className="cursor-target text-sm font-medium text-text-muted hover:text-foreground transition-colors duration-200 flex items-center gap-1"
                       >
                         More <span className="text-xs">→</span>
                       </Link>
@@ -216,7 +216,7 @@ export default async function Footer() {
                     <li className="mt-1">
                       <Link
                         href="/blogs"
-                        className="text-sm font-medium text-text-muted hover:text-foreground transition-colors duration-200 flex items-center gap-1"
+                        className="cursor-target text-sm font-medium text-text-muted hover:text-foreground transition-colors duration-200 flex items-center gap-1"
                       >
                         More <span className="text-xs">→</span>
                       </Link>
@@ -238,7 +238,7 @@ export default async function Footer() {
             © {new Date().getFullYear()} Shreyash Swami. All rights reserved.
           </p>
           <div className="mt-4 sm:mt-0">
-            <Link href="/sitemap" className="hover:text-foreground transition-colors">
+            <Link href="/sitemap" className="cursor-target hover:text-foreground transition-colors">
               Sitemap
             </Link>
           </div>

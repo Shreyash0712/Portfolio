@@ -43,7 +43,7 @@ export default async function SitemapPage() {
           <ul className="flex flex-col gap-4">
             {staticPages.map((page) => (
               <li key={page.href}>
-                <Link href={page.href} className="text-text-muted hover:text-foreground transition-colors flex items-center gap-2 group text-sm">
+                <Link href={page.href} className="cursor-target text-text-muted hover:text-foreground transition-colors flex items-center gap-2 group text-sm">
                   <span className="text-text-muted opacity-50 group-hover:text-foreground group-hover:opacity-100 transition-colors text-xs font-mono">/</span>
                   {page.label}
                 </Link>
@@ -61,7 +61,7 @@ export default async function SitemapPage() {
             <ul className="flex flex-col gap-4">
               {projects.map((project) => (
                 <li key={project.slug}>
-                  <Link href={`/projects/${project.slug}`} className="text-text-muted hover:text-foreground transition-colors flex items-center gap-2 group text-sm">
+                  <Link href={`/projects/${project.slug}`} className="cursor-target text-text-muted hover:text-foreground transition-colors flex items-center gap-2 group text-sm">
                     <span className="text-text-muted opacity-50 group-hover:text-foreground group-hover:opacity-100 transition-colors text-xs font-mono">/</span>
                     {project.title}
                   </Link>
@@ -80,7 +80,7 @@ export default async function SitemapPage() {
             <ul className="flex flex-col gap-4">
               {blogs.map((blog) => (
                 <li key={blog.slug}>
-                  <Link href={`/blogs/${blog.slug}`} className="text-text-muted hover:text-foreground transition-colors flex items-center gap-2 group text-sm">
+                  <Link href={`/blogs/${blog.slug}`} className="cursor-target text-text-muted hover:text-foreground transition-colors flex items-center gap-2 group text-sm">
                     <span className="text-text-muted opacity-50 group-hover:text-foreground group-hover:opacity-100 transition-colors text-xs font-mono">/</span>
                     {blog.title}
                   </Link>

@@ -55,7 +55,7 @@ export default function Chatbot() {
       {/* Floating Action Button */}
       <button
         onClick={() => setIsOpen(true)}
-        className={`fixed bottom-6 right-6 z-40 p-4 rounded-full bg-primary text-primary-foreground shadow-lg shadow-primary/30 transition-all duration-300 hover:scale-110 active:scale-95 ${isOpen ? 'opacity-0 scale-50 pointer-events-none' : 'opacity-100 scale-100'
+        className={`cursor-target fixed bottom-6 right-6 z-40 p-4 rounded-full bg-primary text-primary-foreground shadow-lg shadow-primary/30 transition-all duration-300 hover:scale-110 active:scale-95 ${isOpen ? 'opacity-0 scale-50 pointer-events-none' : 'opacity-100 scale-100'
           }`}
         aria-label="Open AI Chat"
       >
@@ -95,7 +95,7 @@ export default function Chatbot() {
           </div>
           <button
             onClick={() => setIsOpen(false)}
-            className="p-2 rounded-full hover:bg-white/10 transition-colors text-muted-foreground hover:text-foreground"
+            className="cursor-target p-2 rounded-full hover:bg-white/10 transition-colors text-muted-foreground hover:text-foreground"
           >
             <FiX className="w-5 h-5" />
           </button>
@@ -191,7 +191,7 @@ export default function Chatbot() {
             <button
               type="submit"
               disabled={isLoading || !input.trim()}
-              className="p-2 rounded-full bg-primary text-primary-foreground disabled:opacity-50 disabled:cursor-not-allowed transition-colors hover:bg-primary/90"
+              className="cursor-target p-2 rounded-full bg-primary text-primary-foreground disabled:opacity-50 disabled:cursor-not-allowed transition-colors hover:bg-primary/90"
             >
               <FiSend className="w-4 h-4" />
             </button>

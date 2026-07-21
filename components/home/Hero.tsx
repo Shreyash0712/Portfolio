@@ -23,7 +23,7 @@ export default async function Hero() {
       <div className="w-full flex-1 flex flex-col">
         {/* Intro */}
         <div className="pt-6 md:pt-10 mb-8 px-4 md:px-6 relative z-10 w-full">
-          <div className="manga-panel bg-background p-8 md:p-16 panel-skew-1 relative overflow-hidden flex flex-col items-center text-center">
+          <div className="cursor-target manga-panel bg-background p-8 md:p-16 panel-skew-1 relative overflow-hidden flex flex-col items-center text-center">
             <div className="screentone-dots absolute inset-0 opacity-[0.05] pointer-events-none z-0" />
             <div className="relative z-10 flex flex-col items-center w-full px-2">
               <h1 className="text-[13vw] md:text-[8rem] leading-none kinetic-text manga-title-font mb-4 tracking-tighter w-full break-words">
@@ -45,7 +45,7 @@ export default async function Hero() {
           {stats && (
             <>
               {/* Contributions Card - Large Splash Panel */}
-              <div className="col-span-1 md:col-span-2 row-span-3 manga-panel p-6 md:p-8 flex flex-col justify-between panel-skew-1 relative overflow-hidden bg-background">
+              <div className="cursor-target col-span-1 md:col-span-2 row-span-3 manga-panel p-6 md:p-8 flex flex-col justify-between panel-skew-1 relative overflow-hidden bg-background">
                 <div className="screentone-dots absolute inset-0 opacity-10 pointer-events-none z-0" />
                 <div className="relative z-10">
                   <div className="inline-flex items-center gap-2 mb-4 bg-foreground text-background px-4 py-2 border-[3px] border-border-primary transform -rotate-2">
@@ -81,7 +81,7 @@ export default async function Hero() {
                           : "bg-border-primary group-hover/bar:bg-green-500 dark:group-hover/bar:bg-[var(--accent-green)]";
 
                         return (
-                          <div key={i} className="relative flex-1 group/bar h-full flex items-end">
+                          <div key={i} className="cursor-target relative flex-1 group/bar h-full flex items-end">
                             <div
                               className={`w-full rounded-t-sm transition-all duration-300 cursor-pointer ${barColor}`}
                               style={{ height: `${height}%` }}
@@ -103,7 +103,7 @@ export default async function Hero() {
               </div>
 
               {/* Stars */}
-              <div className="col-span-1 md:col-span-1 row-span-1 manga-panel-interactive p-6 flex items-center justify-between panel-skew-2 bg-background relative overflow-hidden">
+              <div className="cursor-target col-span-1 md:col-span-1 row-span-1 manga-panel-interactive p-6 flex items-center justify-between panel-skew-2 bg-background relative overflow-hidden">
                 <div className="screentone-lines absolute inset-0 opacity-10 pointer-events-none z-0" />
                 <div className="relative z-10 flex flex-col gap-1">
                   <div className="flex items-center gap-2">
@@ -115,7 +115,7 @@ export default async function Hero() {
               </div>
 
               {/* Followers */}
-              <div className="col-span-1 md:col-span-1 row-span-1 manga-panel-interactive p-6 flex items-center justify-between panel-skew-3 bg-background relative overflow-hidden">
+              <div className="cursor-target col-span-1 md:col-span-1 row-span-1 manga-panel-interactive p-6 flex items-center justify-between panel-skew-3 bg-background relative overflow-hidden">
                 <div className="screentone-dots absolute inset-0 opacity-[0.08] pointer-events-none z-0" />
                 <div className="relative z-10 flex flex-col gap-1">
                   <div className="flex items-center gap-2">
@@ -127,7 +127,7 @@ export default async function Hero() {
               </div>
 
               {/* PRs */}
-              <div className="col-span-1 md:col-span-1 row-span-1 manga-panel-interactive p-6 flex items-center justify-between panel-skew-1 bg-background relative overflow-hidden">
+              <div className="cursor-target col-span-1 md:col-span-1 row-span-1 manga-panel-interactive p-6 flex items-center justify-between panel-skew-1 bg-background relative overflow-hidden">
                 <div className="screentone-lines absolute inset-0 opacity-[0.15] pointer-events-none z-0" />
                 <div className="relative z-10 flex flex-col gap-1">
                   <div className="flex items-center gap-2 bg-foreground text-background px-2 py-1 transform rotate-1">
@@ -139,7 +139,7 @@ export default async function Hero() {
               </div>
 
               {/* Repositories */}
-              <div className="col-span-1 md:col-span-1 row-span-2 manga-panel-interactive p-6 flex flex-col justify-center panel-skew-2 bg-background relative overflow-hidden">
+              <div className="cursor-target col-span-1 md:col-span-1 row-span-2 manga-panel-interactive p-6 flex flex-col justify-center panel-skew-2 bg-background relative overflow-hidden">
                 <div className="screentone-lines absolute inset-0 opacity-10 pointer-events-none z-0" />
                 <div className="relative z-10 flex flex-col gap-4">
                   <div className="inline-flex items-center gap-2 bg-foreground text-background px-3 py-1.5 border-[3px] border-border-primary self-start transform rotate-1">
@@ -156,7 +156,7 @@ export default async function Hero() {
               </div>
 
               {/* Lines of Code */}
-              <div className="col-span-1 md:col-span-2 row-span-1 manga-panel-interactive p-8 flex flex-col justify-center panel-skew-3 bg-foreground text-background text-center relative overflow-hidden">
+              <div className="cursor-target col-span-1 md:col-span-2 row-span-1 manga-panel-interactive p-8 flex flex-col justify-center panel-skew-3 bg-foreground text-background text-center relative overflow-hidden">
                 <div className="screentone-dots absolute inset-0 opacity-20 pointer-events-none z-0" style={{ filter: "invert(1)" }} />
                 <div className="flex flex-col items-center gap-3 relative z-10">
                   <div className="inline-flex items-center gap-2 bg-background text-foreground px-4 py-2 border-[3px] border-background transform -rotate-1 shadow-[6px_6px_0px_0px_var(--text-muted)]">
