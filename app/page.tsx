@@ -63,7 +63,7 @@ export default async function Home() {
               </div>
               <Link 
                 href="/blogs" 
-                className="cursor-target hidden md:flex items-center gap-2 text-sm font-black uppercase tracking-wider text-background bg-foreground px-4 py-2 border-[3px] border-border-primary hover:-translate-y-1 hover:shadow-[4px_4px_0px_0px_var(--border-primary)] transition-all group"
+                className="hidden md:flex items-center gap-2 text-sm font-black uppercase tracking-wider text-background bg-foreground px-4 py-2 border-[3px] border-border-primary hover:-translate-y-1 hover:shadow-[4px_4px_0px_0px_var(--border-primary)] transition-all group"
               >
                 View all posts
                 <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -81,7 +81,7 @@ export default async function Home() {
             <div className="mt-10 flex justify-center md:hidden">
               <Link 
                 href="/blogs" 
-                className="cursor-target inline-flex items-center gap-2 text-sm font-black uppercase tracking-wider text-background bg-foreground px-6 py-3 border-[3px] border-border-primary shadow-[4px_4px_0px_0px_var(--border-primary)] active:translate-y-1 active:translate-x-1 active:shadow-none transition-all"
+                className="inline-flex items-center gap-2 text-sm font-black uppercase tracking-wider text-background bg-foreground px-6 py-3 border-[3px] border-border-primary shadow-[4px_4px_0px_0px_var(--border-primary)] active:translate-y-1 active:translate-x-1 active:shadow-none transition-all"
               >
                 View all posts
                 <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -102,7 +102,7 @@ export default async function Home() {
               </div>
               <Link 
                 href="/projects" 
-                className="cursor-target hidden md:flex items-center gap-2 text-sm font-black uppercase tracking-wider text-background bg-foreground px-4 py-2 border-[3px] border-border-primary hover:-translate-y-1 hover:shadow-[4px_4px_0px_0px_var(--border-primary)] transition-all group"
+                className="hidden md:flex items-center gap-2 text-sm font-black uppercase tracking-wider text-background bg-foreground px-4 py-2 border-[3px] border-border-primary hover:-translate-y-1 hover:shadow-[4px_4px_0px_0px_var(--border-primary)] transition-all group"
               >
                 View all projects
                 <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -120,7 +120,7 @@ export default async function Home() {
             <div className="mt-10 flex justify-center md:hidden">
               <Link 
                 href="/projects" 
-                className="cursor-target inline-flex items-center gap-2 text-sm font-black uppercase tracking-wider text-background bg-foreground px-6 py-3 border-[3px] border-border-primary shadow-[4px_4px_0px_0px_var(--border-primary)] active:translate-y-1 active:translate-x-1 active:shadow-none transition-all"
+                className="inline-flex items-center gap-2 text-sm font-black uppercase tracking-wider text-background bg-foreground px-6 py-3 border-[3px] border-border-primary shadow-[4px_4px_0px_0px_var(--border-primary)] active:translate-y-1 active:translate-x-1 active:shadow-none transition-all"
               >
                 View all projects
                 <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">

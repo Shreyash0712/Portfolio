@@ -8,7 +8,6 @@ import CloudTransition from "@/components/layout/CloudTransition";
 import { PushSettings } from "@/components/PushSettings";
 import { ThemeProvider } from "@/components/ThemeProvider";
 import Chatbot from "@/components/Chatbot";
-import TargetCursor from "@/components/TargetCursor";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -97,14 +96,6 @@ export default function RootLayout({
           enableSystem
           disableTransitionOnChange
         >
-          <TargetCursor 
-            spinDuration={6}
-            hideDefaultCursor
-            parallaxOn
-            hoverDuration={0.2}
-            cursorColor="#4ade80"
-            cursorColorOnTarget="#f87171"
-          />
           <Navbar />
           <div className="flex-1 flex flex-col" style={{ minHeight: "calc(100svh - var(--navbar-h))" }}>
             {children}

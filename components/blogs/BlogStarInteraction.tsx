@@ -64,7 +64,7 @@ export default function BlogStarInteraction({ slug, initialStars }: BlogStarInte
       <button 
         onClick={handleStar}
         disabled={hasStarred}
-        className={`cursor-target flex items-center gap-1.5 px-2 py-0.5 rounded-full transition-all duration-300 ${
+        className={`flex items-center gap-1.5 px-2 py-0.5 rounded-full transition-all duration-300 ${
           hasStarred 
             ? 'bg-yellow-50 dark:bg-yellow-900/20 text-yellow-600 dark:text-yellow-400 cursor-default' 
             : 'bg-footer-bg text-text-muted hover:bg-yellow-50 dark:hover:bg-yellow-900/20 hover:text-yellow-500 dark:hover:text-yellow-400 cursor-pointer shadow-sm border border-border-primary hover:border-yellow-200 dark:hover:border-yellow-800'

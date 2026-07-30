@@ -74,7 +74,7 @@ export default function BlogList({ initialBlogs, hideSearch = false }: BlogListP
           {filteredBlogs.map((blog) => (
             <div
               key={blog.id}
-              className="cursor-target group flex flex-col bg-background manga-panel-interactive overflow-hidden"
+              className="group flex flex-col bg-background manga-panel-interactive overflow-hidden"
             >
               <Link href={`/blogs/${blog.slug}`} className="block relative aspect-[16/10] bg-hover-bg overflow-hidden">
                 {blog.cover_image_url ? (
