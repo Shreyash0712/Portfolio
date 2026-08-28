@@ -5,7 +5,7 @@ import ReactMarkdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
 import { useRef, useEffect, useState } from 'react';
 import fpPromise from '@fingerprintjs/fingerprintjs';
-import { FiMessageSquare, FiSend, FiLoader, FiX } from 'react-icons/fi';
+import { FiMessageSquare, FiSend, FiLoader, FiX, FiChevronDown } from 'react-icons/fi';
 import Image from 'next/image';
 
 export default function Chatbot() {
@@ -134,12 +134,22 @@ export default function Chatbot() {
                     );
                   }
                   if (part.type === 'reasoning') {
+                    if (!part.text?.trim()) return null;
                     return (
-                      <div key={i} className="italic opacity-70 border-l-2 pl-2 mb-2 text-xs text-muted-foreground">
-                        <ReactMarkdown remarkPlugins={[remarkGfm]}>
-                          {part.text}
-                        </ReactMarkdown>
-                      </div>
+                      <details
+                        key={i}
+                        className="group mb-2.5 rounded-lg border border-black/10 dark:border-white/10 bg-black/[0.03] dark:bg-white/[0.03] overflow-hidden text-xs"
+                      >
+                        <summary className="flex items-center gap-1.5 px-2.5 py-1.5 cursor-pointer select-none text-muted-foreground hover:text-foreground font-medium transition-colors list-none [&::-webkit-details-marker]:hidden">
+                          <FiChevronDown className="w-3.5 h-3.5 transition-transform duration-200 -rotate-90 group-open:rotate-0 text-muted-foreground" />
+                          <span>Thinking process</span>
+                        </summary>
+                        <div className="px-2.5 py-2 border-t border-black/5 dark:border-white/5 text-muted-foreground/80 italic leading-relaxed prose prose-xs dark:prose-invert max-w-none">
+                          <ReactMarkdown remarkPlugins={[remarkGfm]}>
+                            {part.text}
+                          </ReactMarkdown>
+                        </div>
+                      </details>
                     );
                   }
                   return null;
