@@ -36,26 +36,23 @@ export default function Navbar() {
 
   return (
     <>
-      <nav className="fixed top-0 left-0 right-0 z-50 flex items-center justify-between px-6 md:px-12 h-[68px] md:h-[76px] bg-background/60 backdrop-blur-md border-b border-border-primary/40 transition-colors">
-        {/* Logo & Handwritten Brand */}
-        <Link href="/" className="flex items-center gap-2.5 group">
-          <div className="relative h-8 w-8 md:h-9 md:w-9 rounded-full overflow-hidden border border-border-primary ring-1 ring-border-primary/20 group-hover:border-foreground/40 transition-all">
+      <nav className="fixed top-0 left-0 right-0 z-50 flex items-center justify-between px-6 md:px-12 h-[72px] md:h-[80px] bg-background/60 backdrop-blur-md border-b border-border-primary/40 transition-colors">
+        {/* Prominent Logo (Only Logo, Name Removed) */}
+        <Link href="/" className="flex items-center group py-1" aria-label="Home">
+          <div className="relative h-11 w-11 sm:h-12 sm:w-12 md:h-14 md:w-14 rounded-full overflow-hidden border border-border-primary/80 ring-2 ring-border-primary/20 group-hover:ring-foreground/40 group-hover:scale-105 transition-all">
             <Image
               src="/Logo.svg"
-              alt="Logo"
+              alt="Shreyash Swami Logo"
               fill
               className="object-cover dark:invert transition-all duration-300"
               priority
-              sizes="36px"
+              sizes="56px"
             />
           </div>
-          <span className="font-handwriting text-2xl md:text-3xl font-semibold tracking-wide text-foreground group-hover:text-[#ff7a59] dark:group-hover:text-[#ff8f73] transition-colors">
-            Shreyash Swami
-          </span>
         </Link>
 
         {/* Desktop Navigation Links */}
-        <div className="hidden md:flex items-center gap-1 bg-hover-bg/60 px-2 py-1.5 rounded-full border border-border-primary/50 backdrop-blur-xs">
+        <div className="hidden md:flex items-center gap-1 bg-hover-bg/60 px-2.5 py-1.5 rounded-full border border-border-primary/50 backdrop-blur-xs">
           {links.map(({ label, href }) => {
             const active = pathname === href;
             return (
@@ -81,7 +78,18 @@ export default function Navbar() {
             className="text-[11px] font-medium uppercase tracking-[0.18em] text-text-secondary hover:text-foreground transition-colors inline-flex items-center gap-1"
           >
             <span>Resume</span>
-            <span className="text-xs">&nearr;</span>
+            <svg
+              className="w-3 h-3 opacity-70"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="2.5"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+            >
+              <line x1="7" y1="17" x2="17" y2="7" />
+              <polyline points="7 7 17 7 17 17" />
+            </svg>
           </Link>
           <div className="h-3.5 w-px bg-border-primary/60 mx-1" />
           <Link
@@ -145,9 +153,15 @@ export default function Navbar() {
         }`}
       >
         <div className="flex flex-col items-center gap-4 w-full max-w-xs px-6">
-          <span className="font-handwriting text-3xl font-semibold text-foreground mb-2">
-            Shreyash Swami
-          </span>
+          <div className="relative h-16 w-16 rounded-full overflow-hidden border border-border-primary mb-2">
+            <Image
+              src="/Logo.svg"
+              alt="Logo"
+              fill
+              className="object-cover dark:invert"
+              sizes="64px"
+            />
+          </div>
           {links.map(({ label, href }, i) => {
             const active = pathname === href;
             return (

@@ -24,18 +24,6 @@ interface GithubStatsData {
   calendar: ContributionWeek[];
 }
 
-const techStack = [
-  "Next.js 16",
-  "React 19",
-  "TypeScript",
-  "Node.js",
-  "PostgreSQL",
-  "Drizzle ORM",
-  "Tailwind CSS",
-  "AI SDK",
-  "Docker",
-];
-
 export default async function Hero() {
   const token = process.env.GITHUB_TOKEN;
   let stats: GithubStatsData | null = null;
@@ -50,44 +38,35 @@ export default async function Hero() {
   }
 
   return (
-    <section className="relative overflow-hidden pt-12 pb-16 md:pt-20 md:pb-24 px-6 md:px-12 w-full max-w-6xl mx-auto flex flex-col items-center text-center">
-      {/* ── Artistic Starry Background Image with Seamless Bottom Fade ── */}
+    <section className="relative w-full overflow-hidden pt-16 pb-16 md:pt-24 md:pb-24 flex flex-col items-center text-center">
+      {/* ── Artistic Full-Width Background Image with Seamless Bottom Fade ── */}
       <div
-        className="pointer-events-none absolute inset-x-0 top-0 h-[680px] sm:h-[780px] md:h-[900px] overflow-hidden z-0"
+        className="pointer-events-none absolute inset-x-0 top-0 w-full h-[720px] sm:h-[820px] md:h-[940px] overflow-hidden z-0"
         aria-hidden="true"
       >
         <Image
           src="/IMG_20251004_112513486.jpg.jpeg"
-          alt="Artistic starry night background"
+          alt="Artistic background"
           fill
           priority
-          className="object-cover object-top opacity-20 dark:opacity-45 filter contrast-[1.1] saturate-[0.85] select-none"
+          className="object-cover object-center sm:object-top opacity-45 dark:opacity-55 filter contrast-[1.08] saturate-[0.95] select-none"
           sizes="100vw"
         />
 
-        {/* Top subtle vignette so the fixed navbar is clean and legible */}
-        <div className="absolute inset-x-0 top-0 h-28 bg-gradient-to-b from-background via-background/60 to-transparent" />
+        {/* Top subtle vignette for clean navbar translucency */}
+        <div className="absolute inset-x-0 top-0 h-28 bg-gradient-to-b from-background via-background/40 to-transparent" />
 
         {/* Deep, gentle fade merging seamlessly into the page background below */}
-        <div className="absolute inset-x-0 bottom-0 h-[420px] bg-gradient-to-t from-background via-background/85 to-transparent" />
+        <div className="absolute inset-x-0 bottom-0 h-[440px] bg-gradient-to-t from-background via-background/80 to-transparent" />
 
         {/* Soft radial aura to focus light on center */}
-        <div className="absolute inset-0 bg-radial from-transparent via-transparent to-background/50" />
+        <div className="absolute inset-0 bg-radial from-transparent via-transparent to-background/40" />
       </div>
 
-      {/* ── Content Container ── */}
-      <div className="relative z-10 w-full flex flex-col items-center">
-        {/* Status Pill */}
-        <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full text-xs font-medium border border-border-primary bg-background/70 backdrop-blur-md text-text-secondary mb-6 shadow-xs">
-          <span className="relative flex h-2 w-2">
-            <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75" />
-            <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-500" />
-          </span>
-          <span>Available for new opportunities</span>
-        </div>
-
+      {/* ── Centered Content Container ── */}
+      <div className="relative z-10 w-full max-w-6xl mx-auto px-6 md:px-12 flex flex-col items-center">
         {/* Handwritten Main Artist Headline */}
-        <div className="max-w-3xl flex flex-col items-center">
+        <div className="max-w-3xl flex flex-col items-center pt-2">
           <h1 className="font-handwriting text-6xl sm:text-7xl md:text-8xl lg:text-9xl font-semibold tracking-wide leading-none mb-6 select-none">
             <span className="text-foreground">Shreyash</span>{" "}
             <span className="text-[#ff7a59] dark:text-[#ff8f73] inline-block transform -rotate-1 transition-colors">
@@ -100,7 +79,7 @@ export default async function Hero() {
           </p>
 
           {/* Action Buttons */}
-          <div className="flex flex-wrap items-center justify-center gap-3 mb-14">
+          <div className="flex flex-wrap items-center justify-center gap-3 mb-16">
             <Link
               href="/projects"
               className="inline-flex items-center gap-2 px-5 py-2.5 rounded-full text-xs sm:text-sm font-medium bg-foreground text-background hover:opacity-90 transition-all shadow-xs"
@@ -127,25 +106,8 @@ export default async function Hero() {
           </div>
         </div>
 
-        {/* Tech Stack Strip */}
-        <div className="w-full max-w-4xl pt-8 pb-10 border-t border-border-primary/50 flex flex-col items-center">
-          <span className="text-xs uppercase tracking-[0.16em] text-text-muted font-medium mb-4">
-            Core Technologies &amp; Ecosystem
-          </span>
-          <div className="flex flex-wrap items-center justify-center gap-2">
-            {techStack.map((tech) => (
-              <span
-                key={tech}
-                className="px-3 py-1 rounded-full text-xs font-medium bg-hover-bg/70 backdrop-blur-xs text-text-secondary border border-border-primary/50"
-              >
-                {tech}
-              </span>
-            ))}
-          </div>
-        </div>
-
         {/* Bento Showcase Section (Live Stats or Curated Showcase) */}
-        <div className="w-full max-w-5xl mt-2 text-left">
+        <div className="w-full max-w-5xl text-left">
           {stats ? (
             /* Live GitHub Stats Grid */
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">

@@ -20,7 +20,7 @@
 }
 
 :root {
-  --navbar-h: 68px;
+  --navbar-h: 72px;
 
   /* Light Theme Colors (Minimal gallery warm white) */
   --bg-primary: #faf9f6;
@@ -65,7 +65,7 @@
 
 @media (min-width: 768px) {
   :root {
-    --navbar-h: 76px;
+    --navbar-h: 80px;
   }
 }
 
