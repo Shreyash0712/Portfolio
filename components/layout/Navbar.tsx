@@ -36,10 +36,10 @@ export default function Navbar() {
 
   return (
     <>
-      <nav className="fixed top-0 left-0 right-0 z-50 flex items-center justify-between px-6 md:px-12 h-[68px] md:h-[76px] bg-nav-bg backdrop-blur-md border-b border-nav-border transition-colors">
-        {/* Logo & Brand */}
-        <Link href="/" className="flex items-center gap-3 group">
-          <div className="relative h-8 w-8 md:h-9 md:w-9 rounded-full overflow-hidden border border-border-primary ring-1 ring-border-primary/20 group-hover:border-foreground/30 transition-all">
+      <nav className="fixed top-0 left-0 right-0 z-50 flex items-center justify-between px-6 md:px-12 h-[68px] md:h-[76px] bg-background/60 backdrop-blur-md border-b border-border-primary/40 transition-colors">
+        {/* Logo & Handwritten Brand */}
+        <Link href="/" className="flex items-center gap-2.5 group">
+          <div className="relative h-8 w-8 md:h-9 md:w-9 rounded-full overflow-hidden border border-border-primary ring-1 ring-border-primary/20 group-hover:border-foreground/40 transition-all">
             <Image
               src="/Logo.svg"
               alt="Logo"
@@ -49,23 +49,23 @@ export default function Navbar() {
               sizes="36px"
             />
           </div>
-          <span className="font-semibold text-sm tracking-tight text-foreground group-hover:text-text-secondary transition-colors">
+          <span className="font-handwriting text-2xl md:text-3xl font-semibold tracking-wide text-foreground group-hover:text-[#ff7a59] dark:group-hover:text-[#ff8f73] transition-colors">
             Shreyash Swami
           </span>
         </Link>
 
         {/* Desktop Navigation Links */}
-        <div className="hidden md:flex items-center gap-1 bg-hover-bg/70 p-1 rounded-full border border-border-primary">
+        <div className="hidden md:flex items-center gap-1 bg-hover-bg/60 px-2 py-1.5 rounded-full border border-border-primary/50 backdrop-blur-xs">
           {links.map(({ label, href }) => {
             const active = pathname === href;
             return (
               <Link
                 key={href}
                 href={href}
-                className={`px-3.5 py-1.5 rounded-full text-xs font-medium transition-all duration-200 ${
+                className={`px-3 py-1 rounded-full text-[11px] font-medium uppercase tracking-[0.18em] transition-all duration-200 ${
                   active
                     ? "bg-background text-foreground shadow-xs font-semibold"
-                    : "text-text-muted hover:text-foreground hover:bg-hover-bg"
+                    : "text-text-muted hover:text-foreground hover:bg-hover-bg/70"
                 }`}
               >
                 {label}
@@ -74,28 +74,35 @@ export default function Navbar() {
           })}
         </div>
 
-        {/* Right Actions */}
-        <div className="hidden md:flex items-center gap-2.5">
+        {/* Right Actions (Resume & Theme Toggle) */}
+        <div className="hidden md:flex items-center gap-3">
+          <Link
+            href="/resume"
+            className="text-[11px] font-medium uppercase tracking-[0.18em] text-text-secondary hover:text-foreground transition-colors inline-flex items-center gap-1"
+          >
+            <span>Resume</span>
+            <span className="text-xs">&nearr;</span>
+          </Link>
+          <div className="h-3.5 w-px bg-border-primary/60 mx-1" />
           <Link
             href="https://github.com/sponsors/Shreyash0712"
             target="_blank"
             rel="noopener noreferrer"
-            className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-medium border border-border-primary hover:bg-hover-bg text-text-secondary hover:text-foreground transition-all"
+            className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-medium border border-border-primary/60 hover:bg-hover-bg text-text-secondary hover:text-foreground transition-all"
             title="Sponsor on GitHub"
           >
             <svg
               xmlns="http://www.w3.org/2000/svg"
-              width="12"
-              height="12"
+              width="11"
+              height="11"
               viewBox="0 0 24 24"
               fill="currentColor"
               className="text-pink-500"
             >
               <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z" />
             </svg>
-            Sponsor
+            <span className="text-[11px] tracking-wide">Sponsor</span>
           </Link>
-          <div className="h-4 w-px bg-border-primary mx-0.5" />
           <ThemeToggle />
         </div>
 
@@ -138,6 +145,9 @@ export default function Navbar() {
         }`}
       >
         <div className="flex flex-col items-center gap-4 w-full max-w-xs px-6">
+          <span className="font-handwriting text-3xl font-semibold text-foreground mb-2">
+            Shreyash Swami
+          </span>
           {links.map(({ label, href }, i) => {
             const active = pathname === href;
             return (
@@ -146,7 +156,7 @@ export default function Navbar() {
                 href={href}
                 onClick={() => setMenuOpen(false)}
                 style={{ transitionDelay: menuOpen ? `${i * 30}ms` : "0ms" }}
-                className={`w-full text-center py-2 text-lg font-medium tracking-tight transition-all duration-300 ${
+                className={`w-full text-center py-2 text-sm uppercase tracking-[0.2em] font-medium transition-all duration-300 ${
                   menuOpen
                     ? "opacity-100 translate-y-0"
                     : "opacity-0 translate-y-3"
@@ -167,7 +177,7 @@ export default function Navbar() {
             href="https://github.com/sponsors/Shreyash0712"
             target="_blank"
             onClick={() => setMenuOpen(false)}
-            className="inline-flex items-center gap-2 px-5 py-2.5 rounded-full text-sm font-medium border border-border-primary hover:bg-hover-bg text-text-secondary hover:text-foreground transition-all"
+            className="inline-flex items-center gap-2 px-5 py-2.5 rounded-full text-xs font-medium border border-border-primary hover:bg-hover-bg text-text-secondary hover:text-foreground transition-all"
           >
             <svg
               xmlns="http://www.w3.org/2000/svg"

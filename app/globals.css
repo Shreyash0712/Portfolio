@@ -16,6 +16,7 @@
   --color-primary: var(--primary);
   --color-primary-foreground: var(--primary-foreground);
   --color-card: var(--card-bg);
+  --font-handwriting: var(--font-handwriting);
 }
 
 :root {
@@ -411,6 +412,10 @@ html {
 .manga-button:hover {
   opacity: 0.9;
   transform: translateY(-1px);
+}
+
+.font-handwriting {
+  font-family: var(--font-handwriting), "Caveat", cursive, sans-serif;
 }
 
 .manga-header {

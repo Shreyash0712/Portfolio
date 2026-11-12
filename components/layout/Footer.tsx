@@ -78,7 +78,7 @@ export default async function Footer() {
         <div className="grid grid-cols-1 md:grid-cols-4 gap-10 md:gap-8 mb-12">
           {/* Brand Info */}
           <div className="md:col-span-1 flex flex-col items-start gap-4">
-            <Link href="/" className="flex items-center gap-3 group">
+            <Link href="/" className="flex items-center gap-2.5 group">
               <div className="relative h-9 w-9 rounded-full overflow-hidden border border-border-primary">
                 <Image
                   src="/Logo.svg"
@@ -88,7 +88,7 @@ export default async function Footer() {
                   sizes="36px"
                 />
               </div>
-              <span className="font-semibold text-sm tracking-tight text-foreground">
+              <span className="font-handwriting text-2xl font-semibold tracking-wide text-foreground">
                 Shreyash Swami
               </span>
             </Link>

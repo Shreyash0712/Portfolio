@@ -92,10 +92,10 @@ export default async function Home() {
         <section id="projects" className="flex flex-col">
           <div className="flex flex-col md:flex-row md:items-end justify-between mb-10 pb-4 border-b border-border-primary/60 gap-4">
             <div>
-              <span className="text-xs uppercase tracking-widest text-text-muted font-medium block mb-2">
+              <span className="text-xs uppercase tracking-[0.18em] text-text-muted font-medium block mb-1">
                 Selected Work
               </span>
-              <h2 className="text-2xl sm:text-3xl font-semibold tracking-tight text-foreground">
+              <h2 className="font-handwriting text-4xl sm:text-5xl font-semibold tracking-wide text-foreground">
                 Featured Projects
               </h2>
             </div>
@@ -132,10 +132,10 @@ export default async function Home() {
         <section id="blogs" className="flex flex-col">
           <div className="flex flex-col md:flex-row md:items-end justify-between mb-10 pb-4 border-b border-border-primary/60 gap-4">
             <div>
-              <span className="text-xs uppercase tracking-widest text-text-muted font-medium block mb-2">
+              <span className="text-xs uppercase tracking-[0.18em] text-text-muted font-medium block mb-1">
                 Notes &amp; Insights
               </span>
-              <h2 className="text-2xl sm:text-3xl font-semibold tracking-tight text-foreground">
+              <h2 className="font-handwriting text-4xl sm:text-5xl font-semibold tracking-wide text-foreground">
                 Recent Writings
               </h2>
             </div>
@@ -169,10 +169,10 @@ export default async function Home() {
         {/* Minimal Collaboration Callout Banner */}
         <section className="relative rounded-3xl border border-border-primary bg-background/60 p-8 sm:p-12 md:p-16 flex flex-col md:flex-row md:items-center justify-between gap-8 overflow-hidden shadow-xs">
           <div className="max-w-xl">
-            <span className="text-xs uppercase tracking-widest text-text-muted font-medium block mb-2">
+            <span className="text-xs uppercase tracking-[0.18em] text-text-muted font-medium block mb-2">
               Let&apos;s Connect
             </span>
-            <h3 className="text-2xl sm:text-3xl font-semibold tracking-tight text-foreground mb-3">
+            <h3 className="font-handwriting text-3xl sm:text-4xl md:text-5xl font-semibold tracking-wide text-foreground mb-3 leading-snug">
               Have a project in mind or want to collaborate?
             </h3>
             <p className="text-sm text-text-muted leading-relaxed">

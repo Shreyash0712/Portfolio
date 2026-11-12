@@ -6,15 +6,12 @@ interface PageHeaderProps {
 
 export default function PageHeader({ title, subtitle, children }: PageHeaderProps) {
   return (
-    <div className="pt-6 md:pt-10 pb-8 md:pb-12 text-center">
-      <h1
-        className="text-4xl sm:text-5xl font-medium text-foreground tracking-tight"
-        style={{ fontFamily: "var(--font-playfair)" }}
-      >
+    <div className="pt-8 md:pt-12 pb-8 md:pb-12 text-center">
+      <h1 className="font-handwriting text-5xl sm:text-6xl md:text-7xl font-semibold text-foreground tracking-wide">
         {title}
       </h1>
       {subtitle && (
-        <p className="mt-3 text-text-muted text-base max-w-lg mx-auto">
+        <p className="mt-3 text-text-muted text-sm sm:text-base max-w-lg mx-auto">
           {subtitle}
         </p>
       )}
