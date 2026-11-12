@@ -5,39 +5,71 @@ import { eq, desc } from "drizzle-orm";
 import Link from "next/link";
 import ProjectList from "@/components/projects/ProjectList";
 import BlogList from "@/components/blogs/BlogList";
+import { FiArrowRight } from "react-icons/fi";
 
 export const revalidate = 3600;
 
-async function getLatestProjects() {
+interface ProjectItem {
+  id: string;
+  title: string;
+  slug: string;
+  excerpt: string | null;
+  cover_image_url: string | null;
+  technologies: string[] | null;
+  github_link: string | null;
+  demo_link: string | null;
+}
+
+interface BlogItem {
+  id: string;
+  title: string;
+  slug: string;
+  excerpt: string | null;
+  cover_image_url: string | null;
+  published_at: string;
+  stars: number;
+}
+
+async function getLatestProjects(): Promise<ProjectItem[]> {
   try {
-    const result = await db.select({
-      id: projectsSchema.id,
-      title: projectsSchema.title,
-      slug: projectsSchema.slug,
-      excerpt: projectsSchema.excerpt,
-      cover_image_url: projectsSchema.coverImageUrl,
-      technologies: projectsSchema.technologies,
-      github_link: projectsSchema.githubLink,
-      demo_link: projectsSchema.demoLink,
-    }).from(projectsSchema).where(eq(projectsSchema.isPublished, true)).orderBy(desc(projectsSchema.publishedAt)).limit(3);
-    return result as any[];
+    const result = await db
+      .select({
+        id: projectsSchema.id,
+        title: projectsSchema.title,
+        slug: projectsSchema.slug,
+        excerpt: projectsSchema.excerpt,
+        cover_image_url: projectsSchema.coverImageUrl,
+        technologies: projectsSchema.technologies,
+        github_link: projectsSchema.githubLink,
+        demo_link: projectsSchema.demoLink,
+      })
+      .from(projectsSchema)
+      .where(eq(projectsSchema.isPublished, true))
+      .orderBy(desc(projectsSchema.publishedAt))
+      .limit(3);
+    return result as unknown as ProjectItem[];
   } catch {
     return [];
   }
 }
 
-async function getLatestBlogs() {
+async function getLatestBlogs(): Promise<BlogItem[]> {
   try {
-    const result = await db.select({
-      id: blogsSchema.id,
-      title: blogsSchema.title,
-      slug: blogsSchema.slug,
-      excerpt: blogsSchema.excerpt,
-      cover_image_url: blogsSchema.coverImageUrl,
-      published_at: blogsSchema.publishedAt,
-      stars: blogsSchema.stars,
-    }).from(blogsSchema).where(eq(blogsSchema.isPublished, true)).orderBy(desc(blogsSchema.publishedAt)).limit(3);
-    return result as any[];
+    const result = await db
+      .select({
+        id: blogsSchema.id,
+        title: blogsSchema.title,
+        slug: blogsSchema.slug,
+        excerpt: blogsSchema.excerpt,
+        cover_image_url: blogsSchema.coverImageUrl,
+        published_at: blogsSchema.publishedAt,
+        stars: blogsSchema.stars,
+      })
+      .from(blogsSchema)
+      .where(eq(blogsSchema.isPublished, true))
+      .orderBy(desc(blogsSchema.publishedAt))
+      .limit(3);
+    return result as unknown as BlogItem[];
   } catch {
     return [];
   }
@@ -46,88 +78,121 @@ async function getLatestBlogs() {
 export default async function Home() {
   const [projects, blogs] = await Promise.all([
     getLatestProjects(),
-    getLatestBlogs()
+    getLatestBlogs(),
   ]);
 
   return (
-    <main className="flex flex-col flex-1">
+    <main className="flex flex-col flex-1 pb-20">
+      {/* Hero Section */}
       <Hero />
-      <div className="px-4 md:px-6 py-12 w-full flex flex-col gap-12 md:gap-16 relative z-10">
-        <section className="manga-panel bg-background p-6 md:p-12 panel-skew-2 relative overflow-hidden">
-          <div className="screentone-lines absolute inset-0 opacity-[0.04] pointer-events-none z-0" />
-          <div className="relative z-10">
-            <div className="flex flex-col md:flex-row justify-between items-start md:items-end mb-10 border-b-[6px] border-border-primary pb-6">
-              <div>
-                <h2 className="text-4xl md:text-5xl font-black kinetic-text tracking-tight mb-2">Recent Writings</h2>
-                <p className="text-text-primary font-bold uppercase tracking-widest text-sm bg-foreground text-background inline-block px-2 py-1 transform -rotate-1">Thoughts on engineering, AI, and software development.</p>
-              </div>
-              <Link 
-                href="/blogs" 
-                className="hidden md:flex items-center gap-2 text-sm font-black uppercase tracking-wider text-background bg-foreground px-4 py-2 border-[3px] border-border-primary hover:-translate-y-1 hover:shadow-[4px_4px_0px_0px_var(--border-primary)] transition-all group"
-              >
-                View all posts
-                <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M17 8l4 4m0 0l-4 4m4-4H3" />
-                </svg>
-              </Link>
-            </div>
-            
-            {blogs.length > 0 ? (
-            <BlogList initialBlogs={blogs} hideSearch />
-          ) : (
-            <p className="text-text-muted">No posts to show.</p>
-          )}
-          
-            <div className="mt-10 flex justify-center md:hidden">
-              <Link 
-                href="/blogs" 
-                className="inline-flex items-center gap-2 text-sm font-black uppercase tracking-wider text-background bg-foreground px-6 py-3 border-[3px] border-border-primary shadow-[4px_4px_0px_0px_var(--border-primary)] active:translate-y-1 active:translate-x-1 active:shadow-none transition-all"
-              >
-                View all posts
-                <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M17 8l4 4m0 0l-4 4m4-4H3" />
-                </svg>
-              </Link>
-            </div>
-          </div>
-        </section>
 
-        <section className="manga-panel bg-background p-6 md:p-12 panel-skew-1 relative overflow-hidden">
-          <div className="screentone-dots absolute inset-0 opacity-[0.04] pointer-events-none z-0" />
-          <div className="relative z-10">
-            <div className="flex flex-col md:flex-row justify-between items-start md:items-end mb-10 border-b-[6px] border-border-primary pb-6">
-              <div>
-                <h2 className="text-4xl md:text-5xl font-black kinetic-text tracking-tight mb-2">Featured Projects</h2>
-                <p className="text-text-primary font-bold uppercase tracking-widest text-sm bg-foreground text-background inline-block px-2 py-1 transform rotate-1">Some of the things I've been working on recently.</p>
-              </div>
-              <Link 
-                href="/projects" 
-                className="hidden md:flex items-center gap-2 text-sm font-black uppercase tracking-wider text-background bg-foreground px-4 py-2 border-[3px] border-border-primary hover:-translate-y-1 hover:shadow-[4px_4px_0px_0px_var(--border-primary)] transition-all group"
-              >
-                View all projects
-                <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M17 8l4 4m0 0l-4 4m4-4H3" />
-                </svg>
-              </Link>
+      {/* Main Content Sections */}
+      <div className="w-full max-w-6xl mx-auto px-6 md:px-12 flex flex-col gap-24">
+        {/* Featured Projects Section */}
+        <section id="projects" className="flex flex-col">
+          <div className="flex flex-col md:flex-row md:items-end justify-between mb-10 pb-4 border-b border-border-primary/60 gap-4">
+            <div>
+              <span className="text-xs uppercase tracking-widest text-text-muted font-medium block mb-2">
+                Selected Work
+              </span>
+              <h2 className="text-2xl sm:text-3xl font-semibold tracking-tight text-foreground">
+                Featured Projects
+              </h2>
             </div>
-            
-            {projects.length > 0 ? (
+            <Link
+              href="/projects"
+              className="inline-flex items-center gap-1.5 text-xs sm:text-sm font-medium text-text-secondary hover:text-foreground transition-colors group"
+            >
+              <span>View all projects</span>
+              <FiArrowRight className="w-4 h-4 transition-transform group-hover:translate-x-1" />
+            </Link>
+          </div>
+
+          {projects.length > 0 ? (
             <ProjectList initialProjects={projects} hideSearch />
           ) : (
-            <p className="text-text-muted">No projects to show.</p>
-          )}
-          
-            <div className="mt-10 flex justify-center md:hidden">
-              <Link 
-                href="/projects" 
-                className="inline-flex items-center gap-2 text-sm font-black uppercase tracking-wider text-background bg-foreground px-6 py-3 border-[3px] border-border-primary shadow-[4px_4px_0px_0px_var(--border-primary)] active:translate-y-1 active:translate-x-1 active:shadow-none transition-all"
+            <div className="rounded-2xl border border-border-primary p-12 text-center bg-background/50">
+              <p className="text-sm text-text-muted mb-4">
+                Projects are currently being updated in the database.
+              </p>
+              <Link
+                href="https://github.com/Shreyash0712"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center gap-2 text-xs font-medium px-4 py-2 rounded-full border border-border-primary hover:bg-hover-bg transition-colors"
               >
-                View all projects
-                <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M17 8l4 4m0 0l-4 4m4-4H3" />
-                </svg>
+                Browse repositories on GitHub
+                <FiArrowRight className="w-3.5 h-3.5" />
               </Link>
             </div>
+          )}
+        </section>
+
+        {/* Recent Writings / Blog Section */}
+        <section id="blogs" className="flex flex-col">
+          <div className="flex flex-col md:flex-row md:items-end justify-between mb-10 pb-4 border-b border-border-primary/60 gap-4">
+            <div>
+              <span className="text-xs uppercase tracking-widest text-text-muted font-medium block mb-2">
+                Notes &amp; Insights
+              </span>
+              <h2 className="text-2xl sm:text-3xl font-semibold tracking-tight text-foreground">
+                Recent Writings
+              </h2>
+            </div>
+            <Link
+              href="/blogs"
+              className="inline-flex items-center gap-1.5 text-xs sm:text-sm font-medium text-text-secondary hover:text-foreground transition-colors group"
+            >
+              <span>Read all articles</span>
+              <FiArrowRight className="w-4 h-4 transition-transform group-hover:translate-x-1" />
+            </Link>
+          </div>
+
+          {blogs.length > 0 ? (
+            <BlogList initialBlogs={blogs} hideSearch />
+          ) : (
+            <div className="rounded-2xl border border-border-primary p-12 text-center bg-background/50">
+              <p className="text-sm text-text-muted mb-4">
+                Articles and tech notes will be published soon.
+              </p>
+              <Link
+                href="/blogs"
+                className="inline-flex items-center gap-2 text-xs font-medium px-4 py-2 rounded-full border border-border-primary hover:bg-hover-bg transition-colors"
+              >
+                Visit blog archive
+                <FiArrowRight className="w-3.5 h-3.5" />
+              </Link>
+            </div>
+          )}
+        </section>
+
+        {/* Minimal Collaboration Callout Banner */}
+        <section className="relative rounded-3xl border border-border-primary bg-background/60 p-8 sm:p-12 md:p-16 flex flex-col md:flex-row md:items-center justify-between gap-8 overflow-hidden shadow-xs">
+          <div className="max-w-xl">
+            <span className="text-xs uppercase tracking-widest text-text-muted font-medium block mb-2">
+              Let&apos;s Connect
+            </span>
+            <h3 className="text-2xl sm:text-3xl font-semibold tracking-tight text-foreground mb-3">
+              Have a project in mind or want to collaborate?
+            </h3>
+            <p className="text-sm text-text-muted leading-relaxed">
+              I&apos;m always open to discussing new opportunities, full-stack architecture, or creative development work.
+            </p>
+          </div>
+          <div className="flex flex-wrap items-center gap-3 shrink-0">
+            <Link
+              href="/contact"
+              className="inline-flex items-center gap-2 px-5 py-2.5 rounded-full text-xs sm:text-sm font-medium bg-foreground text-background hover:opacity-90 transition-opacity"
+            >
+              Get in Touch
+              <FiArrowRight className="w-4 h-4" />
+            </Link>
+            <Link
+              href="/resume"
+              className="inline-flex items-center gap-2 px-5 py-2.5 rounded-full text-xs sm:text-sm font-medium border border-border-primary hover:bg-hover-bg text-foreground transition-colors"
+            >
+              View Resume
+            </Link>
           </div>
         </section>
       </div>

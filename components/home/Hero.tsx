@@ -1,177 +1,328 @@
+import Link from "next/link";
 import { getGithubStats } from "@/lib/github";
-import { FaGithub, FaStar, FaCodeBranch, FaUsers, FaFileCode } from "react-icons/fa6";
-import { FiGitCommit } from "react-icons/fi";
+import { FaGithub, FaStar, FaCodeBranch, FaUsers } from "react-icons/fa6";
+import { FiGitCommit, FiArrowUpRight, FiArrowRight, FiCode, FiLayers, FiCpu } from "react-icons/fi";
+
+interface ContributionDay {
+  contributionCount: number;
+  date: string;
+}
+
+interface ContributionWeek {
+  contributionDays: ContributionDay[];
+}
+
+interface GithubStatsData {
+  followers: number;
+  totalStars: number;
+  totalRepos: number;
+  totalPRs: number;
+  commits: number;
+  contributedTo: number;
+  linesOfCode: number;
+  calendar: ContributionWeek[];
+}
+
+const techStack = [
+  "Next.js 16",
+  "React 19",
+  "TypeScript",
+  "Node.js",
+  "PostgreSQL",
+  "Drizzle ORM",
+  "Tailwind CSS",
+  "AI SDK",
+  "Docker",
+];
 
 export default async function Hero() {
   const token = process.env.GITHUB_TOKEN;
-  let stats = null;
-  let error = null;
+  let stats: GithubStatsData | null = null;
 
-  try {
-    if (token) {
-      stats = await getGithubStats(token, "Shreyash0712");
-    } else {
-      error = "GitHub token not configured";
+  if (token) {
+    try {
+      const result = await getGithubStats(token, "Shreyash0712");
+      stats = result as unknown as GithubStatsData;
+    } catch {
+      stats = null;
     }
-  } catch (e: any) {
-    error = e.message || "Failed to load GitHub stats";
   }
 
   return (
-    <section className="pb-6 md:pb-12 flex-1 flex flex-col items-center relative overflow-hidden">
-      <div className="speed-lines-bg" />
-      <div className="w-full flex-1 flex flex-col">
-        {/* Intro */}
-        <div className="pt-6 md:pt-10 mb-8 px-4 md:px-6 relative z-10 w-full">
-          <div className="manga-panel bg-background p-8 md:p-16 panel-skew-1 relative overflow-hidden flex flex-col items-center text-center">
-            <div className="screentone-dots absolute inset-0 opacity-[0.05] pointer-events-none z-0" />
-            <div className="relative z-10 flex flex-col items-center w-full px-2">
-              <h1 className="text-[13vw] md:text-[8rem] leading-none kinetic-text manga-title-font mb-4 tracking-tighter w-full break-words">
-                SHREYASH SWAMI
-              </h1>
+    <section className="relative overflow-hidden pt-12 pb-16 md:pt-20 md:pb-24 px-6 md:px-12 w-full max-w-6xl mx-auto flex flex-col items-center text-center">
+      {/* Subtle Ambient Glow */}
+      <div
+        className="pointer-events-none absolute -top-32 left-1/2 -translate-x-1/2 w-[640px] h-[360px] bg-gradient-to-b from-foreground/[0.04] to-transparent blur-3xl opacity-80"
+        aria-hidden="true"
+      />
+
+      {/* Status Pill */}
+      <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full text-xs font-medium border border-border-primary bg-background/80 backdrop-blur-sm text-text-secondary mb-8 shadow-xs">
+        <span className="relative flex h-2 w-2">
+          <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75" />
+          <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-500" />
+        </span>
+        <span>Available for new opportunities</span>
+      </div>
+
+      {/* Main Headline */}
+      <div className="max-w-3xl flex flex-col items-center">
+        <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-semibold tracking-tight text-foreground leading-[1.1] mb-6">
+          Shreyash Swami
+        </h1>
+        <p className="text-lg sm:text-xl md:text-2xl font-normal text-text-secondary leading-relaxed tracking-tight max-w-2xl mb-8">
+          Full-stack developer building thoughtful digital experiences, scalable systems, and intelligent tools.
+        </p>
+
+        {/* Action Buttons */}
+        <div className="flex flex-wrap items-center justify-center gap-3 mb-14">
+          <Link
+            href="/projects"
+            className="inline-flex items-center gap-2 px-5 py-2.5 rounded-full text-sm font-medium bg-foreground text-background hover:opacity-90 transition-all shadow-xs"
+          >
+            Explore Projects
+            <FiArrowRight className="w-4 h-4" />
+          </Link>
+          <Link
+            href="/contact"
+            className="inline-flex items-center gap-2 px-5 py-2.5 rounded-full text-sm font-medium border border-border-primary bg-background hover:bg-hover-bg text-foreground transition-all"
+          >
+            Get in Touch
+          </Link>
+          <Link
+            href="https://github.com/Shreyash0712"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="inline-flex items-center gap-2 px-4 py-2.5 rounded-full text-sm font-medium text-text-secondary hover:text-foreground transition-all"
+          >
+            <FaGithub className="w-4 h-4" />
+            <span>GitHub</span>
+            <FiArrowUpRight className="w-3.5 h-3.5 opacity-60" />
+          </Link>
+        </div>
+      </div>
+
+      {/* Tech Stack Strip */}
+      <div className="w-full max-w-4xl pt-8 pb-12 border-t border-border-primary/60 flex flex-col items-center">
+        <span className="text-xs uppercase tracking-widest text-text-muted font-medium mb-4">
+          Core Technologies & Ecosystem
+        </span>
+        <div className="flex flex-wrap items-center justify-center gap-2">
+          {techStack.map((tech) => (
+            <span
+              key={tech}
+              className="px-3 py-1 rounded-full text-xs font-medium bg-hover-bg text-text-secondary border border-border-primary/50"
+            >
+              {tech}
+            </span>
+          ))}
+        </div>
+      </div>
+
+      {/* Bento Showcase Section (Live Stats or Curated Showcase) */}
+      <div className="w-full max-w-5xl mt-2 text-left">
+        {stats ? (
+          /* Live GitHub Stats Grid */
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+            {/* 28-day Commits Panel */}
+            <div className="col-span-1 md:col-span-2 lg:col-span-2 p-6 rounded-2xl border border-border-primary bg-background/50 backdrop-blur-xs flex flex-col justify-between">
+              <div>
+                <div className="flex items-center justify-between text-xs font-medium text-text-muted mb-2">
+                  <span className="flex items-center gap-1.5">
+                    <FiGitCommit className="w-4 h-4 text-emerald-500" />
+                    Commit Activity
+                  </span>
+                  <span>Last 28 Days</span>
+                </div>
+                <div className="text-3xl font-semibold text-foreground tracking-tight">
+                  {stats.commits.toLocaleString()} contributions
+                </div>
+              </div>
+
+              {/* Sparkline Graph */}
+              <div className="mt-8 pt-4 border-t border-border-primary/40">
+                <div className="flex items-end gap-1 h-20">
+                  {(() => {
+                    const allDays = stats.calendar.flatMap((week) => week.contributionDays);
+                    const last28Days = allDays.slice(-28);
+
+                    return last28Days.map((day, i) => {
+                      const count = day.contributionCount;
+                      const heightPercent = count === 0 ? 8 : Math.max(20, Math.min(100, (count / 6) * 100));
+                      const dateObj = new Date(day.date);
+                      const formattedDate = dateObj.toLocaleDateString("en-US", {
+                        weekday: "short",
+                        month: "short",
+                        day: "numeric",
+                      });
+
+                      return (
+                        <div key={i} className="relative flex-1 group/bar h-full flex items-end">
+                          <div
+                            className={`w-full rounded-xs transition-colors duration-200 cursor-pointer ${
+                              count === 0
+                                ? "bg-hover-bg group-hover/bar:bg-text-muted/40"
+                                : "bg-emerald-500/80 group-hover/bar:bg-emerald-400"
+                            }`}
+                            style={{ height: `${heightPercent}%` }}
+                          />
+                          {/* Tooltip */}
+                          <div className="absolute bottom-full left-1/2 -translate-x-1/2 mb-2 px-2.5 py-1 bg-background text-foreground border border-border-primary text-[11px] whitespace-nowrap rounded-md opacity-0 group-hover/bar:opacity-100 transition-all pointer-events-none z-50 shadow-md">
+                            <span className="font-medium">{count} commits</span>
+                            <span className="text-text-muted block text-[10px]">{formattedDate}</span>
+                          </div>
+                        </div>
+                      );
+                    });
+                  })()}
+                </div>
+              </div>
+            </div>
+
+            {/* Total Stars */}
+            <div className="p-6 rounded-2xl border border-border-primary bg-background/50 backdrop-blur-xs flex flex-col justify-between">
+              <div className="flex items-center justify-between text-xs font-medium text-text-muted mb-4">
+                <span className="flex items-center gap-1.5">
+                  <FaStar className="w-3.5 h-3.5 text-amber-500" />
+                  GitHub Stars
+                </span>
+              </div>
+              <div>
+                <div className="text-3xl font-semibold text-foreground tracking-tight">
+                  {stats.totalStars.toLocaleString()}
+                </div>
+                <p className="text-xs text-text-muted mt-1">Earned across public repos</p>
+              </div>
+            </div>
+
+            {/* Repositories */}
+            <div className="p-6 rounded-2xl border border-border-primary bg-background/50 backdrop-blur-xs flex flex-col justify-between">
+              <div className="flex items-center justify-between text-xs font-medium text-text-muted mb-4">
+                <span className="flex items-center gap-1.5">
+                  <FaGithub className="w-3.5 h-3.5 text-foreground" />
+                  Repositories
+                </span>
+                <span className="text-[10px] px-2 py-0.5 rounded-full bg-hover-bg text-text-secondary">
+                  +{stats.contributedTo} contrib
+                </span>
+              </div>
+              <div>
+                <div className="text-3xl font-semibold text-foreground tracking-tight">
+                  {stats.totalRepos.toLocaleString()}
+                </div>
+                <p className="text-xs text-text-muted mt-1">Open source projects</p>
+              </div>
+            </div>
+
+            {/* Pull Requests */}
+            <div className="p-6 rounded-2xl border border-border-primary bg-background/50 backdrop-blur-xs flex flex-col justify-between">
+              <div className="flex items-center justify-between text-xs font-medium text-text-muted mb-4">
+                <span className="flex items-center gap-1.5">
+                  <FaCodeBranch className="w-3.5 h-3.5 text-purple-500" />
+                  Pull Requests
+                </span>
+              </div>
+              <div>
+                <div className="text-3xl font-semibold text-foreground tracking-tight">
+                  {stats.totalPRs.toLocaleString()}
+                </div>
+                <p className="text-xs text-text-muted mt-1">Merged & contributed</p>
+              </div>
+            </div>
+
+            {/* Community / Followers */}
+            <div className="col-span-1 md:col-span-2 lg:col-span-3 p-6 rounded-2xl border border-border-primary bg-background/50 backdrop-blur-xs flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+              <div className="flex items-center gap-3">
+                <div className="p-2.5 rounded-xl bg-hover-bg text-foreground">
+                  <FaUsers className="w-5 h-5" />
+                </div>
+                <div>
+                  <h3 className="text-sm font-semibold text-foreground">Open Source Community</h3>
+                  <p className="text-xs text-text-muted">
+                    Connecting with developers worldwide on GitHub
+                  </p>
+                </div>
+              </div>
+              <div className="flex items-center gap-4">
+                <div className="text-right">
+                  <span className="text-2xl font-semibold text-foreground">{stats.followers}</span>
+                  <span className="text-xs text-text-muted block">Followers</span>
+                </div>
+                <Link
+                  href="https://github.com/Shreyash0712"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center gap-1.5 px-4 py-2 rounded-full text-xs font-medium bg-foreground text-background hover:opacity-90 transition-opacity"
+                >
+                  Follow
+                  <FiArrowUpRight className="w-3.5 h-3.5" />
+                </Link>
+              </div>
             </div>
           </div>
-        </div>
-
-        {/* GitHub Bento Grid (Manga Style - Full Width) */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6 auto-rows-[minmax(110px,auto)] p-4 md:p-8 bg-border-primary border-y-[6px] border-border-primary shadow-[0_12px_0px_0px_rgba(0,0,0,0.2)] w-full">
-          {error && (
-            <div className="col-span-full p-6 bg-background text-foreground border-[4px] border-border-primary flex items-center gap-3 panel-skew-1">
-              <FaGithub className="text-xl" />
-              <span className="font-bold uppercase tracking-wider">{error}</span>
+        ) : (
+          /* Elegant Fallback Showcase (Displayed when offline or GitHub token is not configured) */
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+            <div className="p-6 rounded-2xl border border-border-primary bg-background/50 backdrop-blur-xs flex flex-col justify-between">
+              <div>
+                <div className="w-9 h-9 rounded-xl bg-hover-bg flex items-center justify-center text-foreground mb-4">
+                  <FiLayers className="w-4 h-4" />
+                </div>
+                <h3 className="text-base font-semibold text-foreground mb-2">Modern Web Architecture</h3>
+                <p className="text-xs text-text-muted leading-relaxed">
+                  Building reactive, accessible, and fast web applications using Next.js App Router, React Server Components, and optimized APIs.
+                </p>
+              </div>
+              <div className="mt-6 pt-4 border-t border-border-primary/40 flex items-center gap-2 text-xs text-text-secondary">
+                <span className="w-1.5 h-1.5 rounded-full bg-emerald-500" />
+                Next.js & React 19
+              </div>
             </div>
-          )}
 
-          {stats && (
-            <>
-              {/* Contributions Card - Large Splash Panel */}
-              <div className="col-span-1 md:col-span-2 row-span-3 manga-panel p-6 md:p-8 flex flex-col justify-between panel-skew-1 relative overflow-hidden bg-background">
-                <div className="screentone-dots absolute inset-0 opacity-10 pointer-events-none z-0" />
-                <div className="relative z-10">
-                  <div className="inline-flex items-center gap-2 mb-4 bg-foreground text-background px-4 py-2 border-[3px] border-border-primary transform -rotate-2">
-                    <FiGitCommit className="text-xl" />
-                    <h3 className="font-black tracking-widest text-sm uppercase">Commits Log</h3>
-                  </div>
-                  <div className="text-5xl md:text-7xl font-black tracking-tighter kinetic-text-sub mt-2">
-                    {stats.commits.toLocaleString()}
-                  </div>
-                  <p className="text-background font-bold uppercase mt-2 text-sm bg-foreground inline-block px-2 border-2 border-border-primary">LAST 28 DAYS</p>
+            <div className="p-6 rounded-2xl border border-border-primary bg-background/50 backdrop-blur-xs flex flex-col justify-between">
+              <div>
+                <div className="w-9 h-9 rounded-xl bg-hover-bg flex items-center justify-center text-foreground mb-4">
+                  <FiCpu className="w-4 h-4" />
                 </div>
-
-                {/* Interactive Bar Chart Graph */}
-                <div className="mt-8 flex items-end gap-1.5 flex-1 min-h-[120px]">
-                  {/* The Graph */}
-                  <div className="flex-1 flex items-end gap-[3px] h-full pt-4">
-                    {(() => {
-                      const allDays = stats.calendar.flatMap((week: any) => week.contributionDays);
-                      const last28Days = allDays.slice(-28);
-
-                      return last28Days.map((day: any, i: number) => {
-                        const total = day.contributionCount;
-                        
-                        // 0 commits: tiny subtle bar. Active days: scale up to 6 commits max for clear variation
-                        const height = total === 0 ? 4 : Math.max(15, Math.min(100, (total / 6) * 100));
-                        
-                        const dateObj = new Date(day.date);
-                        const dayDate = dateObj.toLocaleDateString("en-US", { weekday: "short", month: "short", day: "numeric" });
-
-                        // distinct colors for active vs inactive days
-                        const barColor = total === 0 
-                          ? "bg-hover-bg group-hover/bar:bg-border-primary" 
-                          : "bg-border-primary group-hover/bar:bg-green-500 dark:group-hover/bar:bg-[var(--accent-green)]";
-
-                        return (
-                          <div key={i} className="relative flex-1 group/bar h-full flex items-end">
-                            <div
-                              className={`w-full rounded-t-sm transition-all duration-300 cursor-pointer ${barColor}`}
-                              style={{ height: `${height}%` }}
-                            />
-
-                            {/* Tooltip */}
-                            <div className="absolute bottom-full left-1/2 -translate-x-1/2 mb-2 px-3 py-1.5 bg-background text-foreground border border-border-primary text-xs whitespace-nowrap rounded-lg opacity-0 group-hover/bar:opacity-100 transition-all duration-200 pointer-events-none z-50 shadow-lg flex flex-col items-center scale-95 group-hover/bar:scale-100">
-                              <span className="font-semibold">{total} commits</span>
-                              <span className="text-text-muted text-[10px]">{dayDate}</span>
-                              {/* Tooltip Arrow */}
-                              <div className="absolute -bottom-[5px] left-1/2 -translate-x-1/2 w-2.5 h-2.5 bg-background border-b border-r border-border-primary transform rotate-45"></div>
-                            </div>
-                          </div>
-                        );
-                      });
-                    })()}
-                  </div>
-                </div>
+                <h3 className="text-base font-semibold text-foreground mb-2">Intelligent AI Tooling</h3>
+                <p className="text-xs text-text-muted leading-relaxed">
+                  Integrating modern LLM frameworks, vector search, embeddings, and context-aware chat agents directly into production workflows.
+                </p>
               </div>
-
-              {/* Stars */}
-              <div className="col-span-1 md:col-span-1 row-span-1 manga-panel-interactive p-6 flex items-center justify-between panel-skew-2 bg-background relative overflow-hidden">
-                <div className="screentone-lines absolute inset-0 opacity-10 pointer-events-none z-0" />
-                <div className="relative z-10 flex flex-col gap-1">
-                  <div className="flex items-center gap-2">
-                    <FaStar className="text-2xl" />
-                    <h3 className="font-black text-sm uppercase tracking-widest">Total Stars</h3>
-                  </div>
-                </div>
-                <div className="relative z-10 text-4xl md:text-5xl font-black kinetic-text-sub">{stats.totalStars.toLocaleString()}</div>
+              <div className="mt-6 pt-4 border-t border-border-primary/40 flex items-center gap-2 text-xs text-text-secondary">
+                <span className="w-1.5 h-1.5 rounded-full bg-indigo-500" />
+                Vercel AI SDK & Neon
               </div>
+            </div>
 
-              {/* Followers */}
-              <div className="col-span-1 md:col-span-1 row-span-1 manga-panel-interactive p-6 flex items-center justify-between panel-skew-3 bg-background relative overflow-hidden">
-                <div className="screentone-dots absolute inset-0 opacity-[0.08] pointer-events-none z-0" />
-                <div className="relative z-10 flex flex-col gap-1">
-                  <div className="flex items-center gap-2">
-                    <FaUsers className="text-2xl" />
-                    <h3 className="font-black text-sm uppercase tracking-widest">Followers</h3>
-                  </div>
+            <div className="p-6 rounded-2xl border border-border-primary bg-background/50 backdrop-blur-xs flex flex-col justify-between">
+              <div>
+                <div className="w-9 h-9 rounded-xl bg-hover-bg flex items-center justify-center text-foreground mb-4">
+                  <FiCode className="w-4 h-4" />
                 </div>
-                <div className="relative z-10 text-4xl md:text-5xl font-black kinetic-text-sub">{stats.followers.toLocaleString()}</div>
+                <h3 className="text-base font-semibold text-foreground mb-2">Clean Software Design</h3>
+                <p className="text-xs text-text-muted leading-relaxed">
+                  Strong focus on maintainability, type safety, modular design patterns, clean database schemas, and developer ergonomics.
+                </p>
               </div>
-
-              {/* PRs */}
-              <div className="col-span-1 md:col-span-1 row-span-1 manga-panel-interactive p-6 flex items-center justify-between panel-skew-1 bg-background relative overflow-hidden">
-                <div className="screentone-lines absolute inset-0 opacity-[0.15] pointer-events-none z-0" />
-                <div className="relative z-10 flex flex-col gap-1">
-                  <div className="flex items-center gap-2 bg-foreground text-background px-2 py-1 transform rotate-1">
-                    <FaCodeBranch className="text-2xl" />
-                    <h3 className="font-black text-sm uppercase tracking-widest">Pull Requests</h3>
-                  </div>
-                </div>
-                <div className="relative z-10 text-4xl md:text-5xl font-black kinetic-text-sub">{stats.totalPRs.toLocaleString()}</div>
+              <div className="mt-6 pt-4 border-t border-border-primary/40 flex items-center justify-between text-xs text-text-secondary">
+                <span className="flex items-center gap-2">
+                  <span className="w-1.5 h-1.5 rounded-full bg-purple-500" />
+                  TypeScript & Drizzle
+                </span>
+                <Link
+                  href="https://github.com/Shreyash0712"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-foreground hover:underline inline-flex items-center gap-0.5"
+                >
+                  GitHub
+                  <FiArrowUpRight className="w-3 h-3" />
+                </Link>
               </div>
-
-              {/* Repositories */}
-              <div className="col-span-1 md:col-span-1 row-span-2 manga-panel-interactive p-6 flex flex-col justify-center panel-skew-2 bg-background relative overflow-hidden">
-                <div className="screentone-lines absolute inset-0 opacity-10 pointer-events-none z-0" />
-                <div className="relative z-10 flex flex-col gap-4">
-                  <div className="inline-flex items-center gap-2 bg-foreground text-background px-3 py-1.5 border-[3px] border-border-primary self-start transform rotate-1">
-                    <FaGithub className="text-xl" />
-                    <h3 className="font-black text-sm uppercase tracking-widest">Repositories</h3>
-                  </div>
-                  <div className="flex items-baseline gap-3 mt-2">
-                    <div className="text-5xl md:text-6xl font-black kinetic-text-sub">{stats.totalRepos.toLocaleString()}</div>
-                    <div className="text-xs font-black uppercase text-foreground bg-background border-[3px] border-border-primary px-3 py-1 shadow-[4px_4px_0px_0px_var(--text-muted)] transform -rotate-2">
-                      Contrib: {stats.contributedTo.toLocaleString()}
-                    </div>
-                  </div>
-                </div>
-              </div>
-
-              {/* Lines of Code */}
-              <div className="col-span-1 md:col-span-2 row-span-1 manga-panel-interactive p-8 flex flex-col justify-center panel-skew-3 bg-foreground text-background text-center relative overflow-hidden">
-                <div className="screentone-dots absolute inset-0 opacity-20 pointer-events-none z-0" style={{ filter: "invert(1)" }} />
-                <div className="flex flex-col items-center gap-3 relative z-10">
-                  <div className="inline-flex items-center gap-2 bg-background text-foreground px-4 py-2 border-[3px] border-background transform -rotate-1 shadow-[6px_6px_0px_0px_var(--text-muted)]">
-                    <FaFileCode className="text-xl" />
-                    <h3 className="font-black text-sm uppercase tracking-widest">Lines of Code Written</h3>
-                  </div>
-                  <div className="text-5xl md:text-7xl font-black truncate mt-4 tracking-tighter" style={{textShadow: '4px 4px 0px var(--text-muted)'}}>
-                    ~{stats.linesOfCode.toLocaleString()}
-                  </div>
-                </div>
-              </div>
-
-            </>
-          )}
-        </div>
+            </div>
+          </div>
+        )}
       </div>
     </section>
   );
