@@ -17,14 +17,28 @@ const links = [
 
 export default function Navbar() {
   const pathname = usePathname();
+  const isHome = pathname === "/";
   const [menuOpen, setMenuOpen] = useState(false);
   const [prevPathname, setPrevPathname] = useState(pathname);
+  const [scrolled, setScrolled] = useState(false);
 
   // Close menu on route change during render
   if (prevPathname !== pathname) {
     setPrevPathname(pathname);
     setMenuOpen(false);
   }
+
+  // Track scroll position to transition from transparent to frosted glass
+  useEffect(() => {
+    const handleScroll = () => {
+      setScrolled(window.scrollY > 20);
+    };
+    handleScroll();
+    window.addEventListener("scroll", handleScroll, { passive: true });
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+    };
+  }, []);
 
   // Prevent body scroll when menu is open
   useEffect(() => {
@@ -36,15 +50,21 @@ export default function Navbar() {
 
   return (
     <>
-      <nav className="fixed top-0 left-0 right-0 z-50 flex items-center justify-between px-6 md:px-12 h-[72px] md:h-[80px] bg-background/60 backdrop-blur-md border-b border-border-primary/40 transition-colors">
-        {/* Prominent Logo (Only Logo, Name Removed) */}
+      <nav
+        className={`fixed top-0 left-0 right-0 z-50 flex items-center justify-between px-6 md:px-12 h-[72px] md:h-[80px] transition-all duration-300 ${
+          isHome && !scrolled
+            ? "bg-transparent border-b border-transparent"
+            : "bg-background/80 backdrop-blur-md border-b border-border-primary/40 shadow-xs"
+        }`}
+      >
+        {/* Clean Logo without enclosing circle */}
         <Link href="/" className="flex items-center group py-1" aria-label="Home">
-          <div className="relative h-11 w-11 sm:h-12 sm:w-12 md:h-14 md:w-14 rounded-full overflow-hidden border border-border-primary/80 ring-2 ring-border-primary/20 group-hover:ring-foreground/40 group-hover:scale-105 transition-all">
+          <div className="relative h-11 w-11 sm:h-12 sm:w-12 md:h-14 md:w-14 group-hover:scale-105 transition-transform duration-200">
             <Image
               src="/Logo.svg"
               alt="Shreyash Swami Logo"
               fill
-              className="object-cover dark:invert transition-all duration-300"
+              className="object-contain dark:invert transition-all duration-300"
               priority
               sizes="56px"
             />
@@ -52,7 +72,7 @@ export default function Navbar() {
         </Link>
 
         {/* Desktop Navigation Links */}
-        <div className="hidden md:flex items-center gap-1 bg-hover-bg/60 px-2.5 py-1.5 rounded-full border border-border-primary/50 backdrop-blur-xs">
+        <div className="hidden md:flex items-center gap-1 bg-hover-bg/60 px-2.5 py-1.5 rounded-full border border-border-primary/40 backdrop-blur-xs shadow-xs">
           {links.map(({ label, href }) => {
             const active = pathname === href;
             return (
@@ -71,32 +91,13 @@ export default function Navbar() {
           })}
         </div>
 
-        {/* Right Actions (Resume & Theme Toggle) */}
+        {/* Right Actions (Sponsor & Theme Toggle Only) */}
         <div className="hidden md:flex items-center gap-3">
-          <Link
-            href="/resume"
-            className="text-[11px] font-medium uppercase tracking-[0.18em] text-text-secondary hover:text-foreground transition-colors inline-flex items-center gap-1"
-          >
-            <span>Resume</span>
-            <svg
-              className="w-3 h-3 opacity-70"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              strokeWidth="2.5"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-            >
-              <line x1="7" y1="17" x2="17" y2="7" />
-              <polyline points="7 7 17 7 17 17" />
-            </svg>
-          </Link>
-          <div className="h-3.5 w-px bg-border-primary/60 mx-1" />
           <Link
             href="https://github.com/sponsors/Shreyash0712"
             target="_blank"
             rel="noopener noreferrer"
-            className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-medium border border-border-primary/60 hover:bg-hover-bg text-text-secondary hover:text-foreground transition-all"
+            className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-medium border border-border-primary/50 hover:bg-hover-bg text-text-secondary hover:text-foreground transition-all"
             title="Sponsor on GitHub"
           >
             <svg
@@ -153,12 +154,12 @@ export default function Navbar() {
         }`}
       >
         <div className="flex flex-col items-center gap-4 w-full max-w-xs px-6">
-          <div className="relative h-16 w-16 rounded-full overflow-hidden border border-border-primary mb-2">
+          <div className="relative h-16 w-16 mb-2">
             <Image
               src="/Logo.svg"
               alt="Logo"
               fill
-              className="object-cover dark:invert"
+              className="object-contain dark:invert"
               sizes="64px"
             />
           </div>

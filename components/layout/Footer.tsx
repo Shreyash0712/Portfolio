@@ -79,15 +79,6 @@ export default async function Footer() {
           {/* Brand Info */}
           <div className="md:col-span-1 flex flex-col items-start gap-4">
             <Link href="/" className="flex items-center gap-2.5 group">
-              <div className="relative h-9 w-9 rounded-full overflow-hidden border border-border-primary">
-                <Image
-                  src="/Logo.svg"
-                  alt="Logo"
-                  fill
-                  className="object-cover dark:invert transition-all"
-                  sizes="36px"
-                />
-              </div>
               <span className="font-handwriting text-2xl font-semibold tracking-wide text-foreground">
                 Shreyash Swami
               </span>
@@ -199,7 +190,7 @@ export default async function Footer() {
         {/* Bottom Bar */}
         <div className="pt-8 border-t border-border-primary/60 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-text-muted">
           <p>
-            &copy; {new Date().getFullYear()} Shreyash Swami. Crafted with minimalism &amp; care.
+            &copy; {new Date().getFullYear()}, Shreyash Swami. Crafted with minimalism &amp; care.
           </p>
           <div className="flex items-center gap-6">
             <Link href="/sitemap" className="hover:text-foreground transition-colors">
