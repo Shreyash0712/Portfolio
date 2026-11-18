@@ -60,7 +60,7 @@ export default function HeroBackground() {
           }}
         >
           <Image
-            src="/img2.png"
+            src="/IMG_20261109_112848_013_AI.jpg.jpeg"
             alt="Artistic landscape background"
             fill
             priority
