@@ -11,10 +11,19 @@ interface Particle {
   baseRadius: number;
   radius: number;
   isAccent: boolean;
+  isAmber: boolean;
   alpha: number;
   baseAlpha: number;
   pulseAngle: number;
   pulseSpeed: number;
+  flash: number;
+}
+
+interface Spark {
+  fromIndex: number;
+  toIndex: number;
+  progress: number;
+  speed: number;
 }
 
 export default function HeroReactiveBackground() {
@@ -22,7 +31,7 @@ export default function HeroReactiveBackground() {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const { resolvedTheme } = useTheme();
 
-  // Mouse tracking with smooth lerp
+  // Mouse & touch tracking with smooth lerp
   const mouseRef = useRef({
     x: -1000,
     y: -1000,
@@ -47,6 +56,8 @@ export default function HeroReactiveBackground() {
     let width = 0;
     let height = 0;
     let particles: Particle[] = [];
+    let sparks: Spark[] = [];
+    const startTime = performance.now();
 
     // Check motion preference
     const prefersReducedMotion = window.matchMedia(
@@ -58,16 +69,20 @@ export default function HeroReactiveBackground() {
       resolvedTheme === "dark" ||
       document.documentElement.classList.contains("dark");
 
-    // Palette configuration
-    const accentColor = isDark
+    // Colors
+    const coralColor = isDark
       ? { r: 255, g: 122, b: 89 } // Signature warm coral #ff7a59
-      : { r: 235, g: 105, b: 75 };
+      : { r: 240, g: 100, b: 70 };
+
+    const amberColor = isDark
+      ? { r: 245, g: 158, b: 11 } // Radiant amber #f59e0b
+      : { r: 217, g: 119, b: 6 };
 
     const baseColor = isDark
-      ? { r: 244, g: 244, b: 246 } // Starlight silver/white
-      : { r: 55, g: 55, b: 65 }; // Soft slate graphite
+      ? { r: 244, g: 244, b: 246 } // Starlight silver
+      : { r: 70, g: 70, b: 85 }; // Graphite
 
-    // Resize canvas with pixel ratio for crisp Retina rendering
+    // Resize canvas with devicePixelRatio for Retina clarity
     const handleResize = () => {
       if (!container || !canvas) return;
       const rect = container.getBoundingClientRect();
@@ -80,42 +95,43 @@ export default function HeroReactiveBackground() {
       ctx.resetTransform();
       ctx.scale(dpr, dpr);
 
-      // Initialize particles based on screen area
       initParticles();
     };
 
     const initParticles = () => {
-      // Density: ~55 on mobile, ~85 on desktop
       const isMobile = width < 768;
-      const particleCount = isMobile
-        ? Math.floor(width * 0.08)
-        : Math.floor(width * 0.06);
-
-      const count = Math.max(28, Math.min(particleCount, 85));
+      const count = isMobile
+        ? Math.max(38, Math.min(Math.floor(width * 0.11), 58))
+        : Math.max(55, Math.min(Math.floor(width * 0.075), 95));
 
       particles = Array.from({ length: count }, () => {
-        const isAccent = Math.random() < 0.28; // ~28% coral accent particles
+        const isAccent = Math.random() < 0.38; // 38% accent particles
+        const isAmber = isAccent && Math.random() < 0.45;
         const baseRadius = isAccent
-          ? 1.6 + Math.random() * 1.4
-          : 1.0 + Math.random() * 1.5;
+          ? 2.2 + Math.random() * 1.8
+          : 1.4 + Math.random() * 1.6;
         const baseAlpha = isAccent
-          ? 0.45 + Math.random() * 0.35
-          : 0.2 + Math.random() * 0.35;
+          ? 0.55 + Math.random() * 0.35
+          : 0.35 + Math.random() * 0.35;
 
         return {
           x: Math.random() * width,
           y: Math.random() * height,
-          vx: (Math.random() - 0.5) * (prefersReducedMotion ? 0.05 : 0.32),
-          vy: (Math.random() - 0.5) * (prefersReducedMotion ? 0.05 : 0.32),
+          vx: (Math.random() - 0.5) * (prefersReducedMotion ? 0.04 : 0.38),
+          vy: (Math.random() - 0.5) * (prefersReducedMotion ? 0.04 : 0.38),
           baseRadius,
           radius: baseRadius,
           isAccent,
+          isAmber,
           alpha: baseAlpha,
           baseAlpha,
           pulseAngle: Math.random() * Math.PI * 2,
-          pulseSpeed: 0.015 + Math.random() * 0.02,
+          pulseSpeed: 0.02 + Math.random() * 0.025,
+          flash: 0,
         };
       });
+
+      sparks = [];
     };
 
     handleResize();
@@ -123,14 +139,14 @@ export default function HeroReactiveBackground() {
     const resizeObserver = new ResizeObserver(handleResize);
     resizeObserver.observe(container);
 
-    // Mouse & Touch pointer events
+    // Pointer events (Desktop mouse + Phone touch)
     const handlePointerMove = (e: PointerEvent) => {
       if (!container) return;
       const rect = container.getBoundingClientRect();
       const x = e.clientX - rect.left;
       const y = e.clientY - rect.top;
 
-      if (x >= -40 && x <= width + 40 && y >= -40 && y <= height + 40) {
+      if (x >= -60 && x <= width + 60 && y >= -60 && y <= height + 60) {
         mouseRef.current.targetX = x;
         mouseRef.current.targetY = y;
         mouseRef.current.isActive = true;
@@ -147,6 +163,10 @@ export default function HeroReactiveBackground() {
       }
     };
 
+    const handlePointerDown = (e: PointerEvent) => {
+      handlePointerMove(e);
+    };
+
     const handlePointerLeave = () => {
       mouseRef.current.isActive = false;
       if (glowRef.current) {
@@ -155,9 +175,10 @@ export default function HeroReactiveBackground() {
     };
 
     window.addEventListener("pointermove", handlePointerMove, { passive: true });
+    window.addEventListener("pointerdown", handlePointerDown, { passive: true });
     window.addEventListener("pointerleave", handlePointerLeave, { passive: true });
 
-    // Pause animation when hero is scrolled out of view to save 100% GPU/CPU
+    // IntersectionObserver to pause animation when scrolled past hero
     const intersectionObserver = new IntersectionObserver(
       (entries) => {
         entries.forEach((entry) => {
@@ -171,114 +192,263 @@ export default function HeroReactiveBackground() {
     );
     intersectionObserver.observe(container);
 
-    // Render loop
-    const connectionDistance = width < 768 ? 75 : 95;
-    const mouseInfluenceRadius = 130;
+    // Flowing Wave Lines configuration (fills vertical spaces with dynamic life)
+    const waves = [
+      {
+        baseYFraction: 0.28,
+        amplitude: 28,
+        frequency: 0.0032,
+        speed: 0.0012,
+        phase: 0,
+        color: isDark ? "rgba(255, 122, 89, 0.35)" : "rgba(235, 105, 75, 0.28)",
+        glowColor: "#ff7a59",
+        lineWidth: 1.75,
+      },
+      {
+        baseYFraction: 0.52,
+        amplitude: 36,
+        frequency: 0.0026,
+        speed: -0.0009,
+        phase: 2.2,
+        color: isDark ? "rgba(245, 158, 11, 0.30)" : "rgba(217, 119, 6, 0.24)",
+        glowColor: "#f59e0b",
+        lineWidth: 1.5,
+      },
+      {
+        baseYFraction: 0.74,
+        amplitude: 32,
+        frequency: 0.0030,
+        speed: 0.0015,
+        phase: 4.4,
+        color: isDark ? "rgba(244, 244, 246, 0.25)" : "rgba(80, 80, 95, 0.20)",
+        glowColor: isDark ? "#ffffff" : "#4a4a52",
+        lineWidth: 1.35,
+      },
+    ];
 
+    const connectionDistance = width < 768 ? 105 : 138;
+    const mouseInfluenceRadius = 150;
+
+    // Render loop
     const render = () => {
       if (!isVisible) return;
 
+      const now = performance.now();
+      const elapsed = now - startTime;
+
+      // Autonomous attractor: glides in an infinity / Lissajous path
+      // Keeps phones and idle desktop active and visually rich
+      const autoTime = elapsed * 0.0008;
+      const autoAttractor = {
+        x: width * 0.5 + Math.sin(autoTime * 0.9) * (width * 0.38),
+        y: height * 0.5 + Math.cos(autoTime * 1.3) * (height * 0.28),
+      };
+
       // Smooth mouse lerp
       const mouse = mouseRef.current;
-      mouse.x += (mouse.targetX - mouse.x) * 0.12;
-      mouse.y += (mouse.targetY - mouse.y) * 0.12;
+      mouse.x += (mouse.targetX - mouse.x) * 0.14;
+      mouse.y += (mouse.targetY - mouse.y) * 0.14;
 
       ctx.clearRect(0, 0, width, height);
 
-      // 1. Update and draw particles
+      // ── 1. Draw Flowing Topographic Wave Lines (React Bits Wave Lines) ──
+      for (const wave of waves) {
+        ctx.beginPath();
+        const step = 14;
+
+        for (let x = 0; x <= width + step; x += step) {
+          let y =
+            wave.baseYFraction * height +
+            Math.sin(x * wave.frequency + elapsed * wave.speed + wave.phase) *
+              wave.amplitude +
+            Math.cos(
+              x * wave.frequency * 0.55 + elapsed * wave.speed * 0.75
+            ) *
+              (wave.amplitude * 0.45);
+
+          // Interaction: ripple from cursor or auto-attractor
+          if (mouse.isActive) {
+            const dx = x - mouse.x;
+            const dy = y - mouse.y;
+            const dist = Math.hypot(dx, dy);
+            if (dist < 190) {
+              const push =
+                (1 - dist / 190) *
+                Math.sin((dist / 190) * Math.PI) *
+                38;
+              y += push;
+            }
+          } else {
+            const adx = x - autoAttractor.x;
+            const ady = y - autoAttractor.y;
+            const adist = Math.hypot(adx, ady);
+            if (adist < 220) {
+              const apush =
+                (1 - adist / 220) *
+                Math.sin((adist / 220) * Math.PI) *
+                18;
+              y += apush;
+            }
+          }
+
+          if (x === 0) {
+            ctx.moveTo(x, y);
+          } else {
+            ctx.lineTo(x, y);
+          }
+        }
+
+        ctx.strokeStyle = wave.color;
+        ctx.lineWidth = wave.lineWidth;
+        ctx.shadowBlur = isDark ? 9 : 4;
+        ctx.shadowColor = wave.glowColor;
+        ctx.stroke();
+        ctx.shadowBlur = 0;
+      }
+
+      // ── 2. Update and Draw Particles & Constellation Network ──
+      const connections: [number, number, number][] = [];
+
       for (let i = 0; i < particles.length; i++) {
         const p = particles[i];
 
-        // Harmonic breathing pulsation
+        // Breathing pulsation
         p.pulseAngle += p.pulseSpeed;
-        const pulse = Math.sin(p.pulseAngle) * 0.25;
-        p.radius = Math.max(0.8, p.baseRadius + pulse);
+        const pulse = Math.sin(p.pulseAngle) * 0.35;
+        p.radius = Math.max(1.0, p.baseRadius + pulse);
+
+        // Flash decay
+        if (p.flash > 0) {
+          p.flash = Math.max(0, p.flash - 0.04);
+        }
 
         // Position drift
         p.x += p.vx;
         p.y += p.vy;
 
-        // Soft screen edge bounce
-        if (p.x < 0) {
-          p.x = 0;
-          p.vx *= -1;
-        } else if (p.x > width) {
-          p.x = width;
-          p.vx *= -1;
-        }
-        if (p.y < 0) {
-          p.y = 0;
-          p.vy *= -1;
-        } else if (p.y > height) {
-          p.y = height;
-          p.vy *= -1;
-        }
+        // Screen edge wrapping
+        if (p.x < -10) p.x = width + 10;
+        else if (p.x > width + 10) p.x = -10;
+        if (p.y < -10) p.y = height + 10;
+        else if (p.y > height + 10) p.y = -10;
 
-        // Pointer repulsion / interaction
-        if (mouse.isActive) {
-          const dx = p.x - mouse.x;
-          const dy = p.y - mouse.y;
-          const dist = Math.hypot(dx, dy);
+        // Interaction with cursor / auto-attractor
+        const target = mouse.isActive ? mouse : autoAttractor;
+        const targetRadius = mouse.isActive ? mouseInfluenceRadius : 110;
+        const dx = p.x - target.x;
+        const dy = p.y - target.y;
+        const dist = Math.hypot(dx, dy);
 
-          if (dist < mouseInfluenceRadius && dist > 0) {
-            const force = (mouseInfluenceRadius - dist) / mouseInfluenceRadius;
-            const angle = Math.atan2(dy, dx);
-            const repelStrength = force * 1.8;
+        if (dist < targetRadius && dist > 0) {
+          const force = (targetRadius - dist) / targetRadius;
+          const angle = Math.atan2(dy, dx);
+          const pushStrength = force * (mouse.isActive ? 2.2 : 0.8);
 
-            p.x += Math.cos(angle) * repelStrength;
-            p.y += Math.sin(angle) * repelStrength;
-            p.alpha = Math.min(0.95, p.baseAlpha + force * 0.4);
-          } else {
-            p.alpha += (p.baseAlpha - p.alpha) * 0.05;
-          }
+          p.x += Math.cos(angle) * pushStrength;
+          p.y += Math.sin(angle) * pushStrength;
+          p.alpha = Math.min(1.0, p.baseAlpha + force * 0.45);
         } else {
           p.alpha += (p.baseAlpha - p.alpha) * 0.05;
         }
 
-        // Draw particle dot
-        const color = p.isAccent ? accentColor : baseColor;
-        ctx.beginPath();
-        ctx.arc(p.x, p.y, p.radius, 0, Math.PI * 2);
-        ctx.fillStyle = `rgba(${color.r}, ${color.g}, ${color.b}, ${p.alpha})`;
-        ctx.fill();
+        // Draw particle node
+        const color = p.isAmber
+          ? amberColor
+          : p.isAccent
+          ? coralColor
+          : baseColor;
+        const currentAlpha = Math.min(1, p.alpha + p.flash * 0.6);
 
-        // 2. Connect neighboring particles (constellation web)
+        ctx.beginPath();
+        ctx.arc(p.x, p.y, p.radius + p.flash * 2, 0, Math.PI * 2);
+        ctx.fillStyle = `rgba(${color.r}, ${color.g}, ${color.b}, ${currentAlpha})`;
+
+        if (p.isAccent || p.flash > 0) {
+          const glow = p.isAmber ? amberColor : coralColor;
+          ctx.shadowBlur = isDark ? 10 : 5;
+          ctx.shadowColor = `rgba(${glow.r}, ${glow.g}, ${glow.b}, 0.8)`;
+        }
+
+        ctx.fill();
+        ctx.shadowBlur = 0;
+
+        // Collect connections
         for (let j = i + 1; j < particles.length; j++) {
           const p2 = particles[j];
-          const dx = p.x - p2.x;
-          const dy = p.y - p2.y;
-          const dist = Math.hypot(dx, dy);
+          const cdx = p.x - p2.x;
+          const cdy = p.y - p2.y;
+          const cdist = Math.hypot(cdx, cdy);
 
-          if (dist < connectionDistance) {
+          if (cdist < connectionDistance) {
+            connections.push([i, j, cdist]);
+
             const lineAlpha =
-              (1 - dist / connectionDistance) * (isDark ? 0.12 : 0.07);
-
+              (1 - cdist / connectionDistance) * (isDark ? 0.32 : 0.22);
             const hasAccent = p.isAccent || p2.isAccent;
-            const lineColor = hasAccent ? accentColor : baseColor;
+            const lineColor = hasAccent ? coralColor : baseColor;
 
             ctx.beginPath();
             ctx.moveTo(p.x, p.y);
             ctx.lineTo(p2.x, p2.y);
             ctx.strokeStyle = `rgba(${lineColor.r}, ${lineColor.g}, ${lineColor.b}, ${lineAlpha})`;
-            ctx.lineWidth = 0.85;
+            ctx.lineWidth = hasAccent ? 1.2 : 0.9;
             ctx.stroke();
           }
         }
 
-        // 3. Connect particles to mouse cursor when close
-        if (mouse.isActive) {
-          const dx = p.x - mouse.x;
-          const dy = p.y - mouse.y;
-          const dist = Math.hypot(dx, dy);
+        // Draw reactive tether line to pointer
+        if (mouse.isActive && dist < 125) {
+          const tetherAlpha = (1 - dist / 125) * (isDark ? 0.36 : 0.26);
+          ctx.beginPath();
+          ctx.moveTo(p.x, p.y);
+          ctx.lineTo(mouse.x, mouse.y);
+          ctx.strokeStyle = `rgba(${coralColor.r}, ${coralColor.g}, ${coralColor.b}, ${tetherAlpha})`;
+          ctx.lineWidth = 1.35;
+          ctx.stroke();
+        }
+      }
 
-          if (dist < 105) {
-            const mouseLineAlpha = (1 - dist / 105) * (isDark ? 0.22 : 0.14);
+      // ── 3. Traveling Energy Sparks (Electrifying React Bits effect) ──
+      // Spawn sparks if needed
+      if (sparks.length < 5 && connections.length > 0 && Math.random() < 0.08) {
+        const randConn =
+          connections[Math.floor(Math.random() * connections.length)];
+        sparks.push({
+          fromIndex: randConn[0],
+          toIndex: randConn[1],
+          progress: 0,
+          speed: 0.022 + Math.random() * 0.025,
+        });
+      }
+
+      // Update and draw traveling sparks
+      for (let s = sparks.length - 1; s >= 0; s--) {
+        const spark = sparks[s];
+        spark.progress += spark.speed;
+
+        if (spark.progress >= 1) {
+          if (particles[spark.toIndex]) {
+            particles[spark.toIndex].flash = 1.0;
+          }
+          sparks.splice(s, 1);
+        } else {
+          const p1 = particles[spark.fromIndex];
+          const p2 = particles[spark.toIndex];
+          if (p1 && p2) {
+            const sx = p1.x + (p2.x - p1.x) * spark.progress;
+            const sy = p1.y + (p2.y - p1.y) * spark.progress;
+
             ctx.beginPath();
-            ctx.moveTo(p.x, p.y);
-            ctx.lineTo(mouse.x, mouse.y);
-            ctx.strokeStyle = `rgba(${accentColor.r}, ${accentColor.g}, ${accentColor.b}, ${mouseLineAlpha})`;
-            ctx.lineWidth = 1;
-            ctx.stroke();
+            ctx.arc(sx, sy, 2.6, 0, Math.PI * 2);
+            ctx.fillStyle = isDark
+              ? "rgba(255, 200, 180, 0.95)"
+              : "rgba(255, 95, 60, 0.95)";
+            ctx.shadowBlur = 10;
+            ctx.shadowColor = `rgba(${coralColor.r}, ${coralColor.g}, ${coralColor.b}, 1)`;
+            ctx.fill();
+            ctx.shadowBlur = 0;
+          } else {
+            sparks.splice(s, 1);
           }
         }
       }
@@ -293,6 +463,7 @@ export default function HeroReactiveBackground() {
       resizeObserver.disconnect();
       intersectionObserver.disconnect();
       window.removeEventListener("pointermove", handlePointerMove);
+      window.removeEventListener("pointerdown", handlePointerDown);
       window.removeEventListener("pointerleave", handlePointerLeave);
     };
   }, [resolvedTheme]);
@@ -303,31 +474,31 @@ export default function HeroReactiveBackground() {
       className="pointer-events-none absolute inset-0 w-full h-full overflow-hidden z-0 select-none"
       aria-hidden="true"
     >
-      {/* ── Soft Ambient Aurora/Glow Clouds (Minimal & Subtle) ── */}
+      {/* ── Soft Ambient Aurora/Glow Clouds (Rich & Warm) ── */}
       {/* Top-left warm coral aura */}
-      <div className="absolute -top-24 -left-24 w-80 sm:w-96 md:w-[480px] h-80 sm:h-96 md:h-[480px] rounded-full bg-[#ff7a59]/10 dark:bg-[#ff7a59]/12 blur-[100px] sm:blur-[130px] pointer-events-none transition-colors duration-700" />
+      <div className="absolute -top-20 -left-20 w-88 sm:w-[450px] md:w-[540px] h-88 sm:h-[450px] md:h-[540px] rounded-full bg-[#ff7a59]/16 dark:bg-[#ff7a59]/20 blur-[90px] sm:blur-[130px] pointer-events-none transition-colors duration-700" />
 
-      {/* Center-right soft ambient aura */}
-      <div className="absolute top-1/4 right-0 sm:-right-20 w-72 sm:w-88 md:w-[420px] h-72 sm:h-88 md:h-[420px] rounded-full bg-amber-500/8 dark:bg-amber-400/8 blur-[90px] sm:blur-[120px] pointer-events-none transition-colors duration-700" />
+      {/* Center-right amber/gold aura */}
+      <div className="absolute top-1/4 -right-10 sm:-right-20 w-80 sm:w-[400px] md:w-[480px] h-80 sm:h-[400px] md:h-[480px] rounded-full bg-amber-500/12 dark:bg-amber-400/14 blur-[90px] sm:blur-[120px] pointer-events-none transition-colors duration-700" />
 
-      {/* Bottom-left delicate indigo/cyan grounding aura */}
-      <div className="absolute -bottom-16 left-1/4 w-72 sm:w-80 md:w-96 h-72 sm:h-80 md:h-96 rounded-full bg-indigo-500/5 dark:bg-indigo-500/8 blur-[100px] pointer-events-none transition-colors duration-700" />
+      {/* Bottom-left grounding indigo aura */}
+      <div className="absolute -bottom-12 left-1/4 w-72 sm:w-88 md:w-[420px] h-72 sm:h-88 md:h-[420px] rounded-full bg-indigo-500/8 dark:bg-indigo-500/12 blur-[100px] pointer-events-none transition-colors duration-700" />
 
-      {/* ── Interactive Pointer Spotlight (Follows cursor smoothly) ── */}
+      {/* ── Interactive Pointer Spotlight (Follows cursor/touch smoothly) ── */}
       <div
         ref={glowRef}
-        className="absolute -top-48 -left-48 w-96 h-96 rounded-full bg-radial from-[#ff7a59]/15 dark:from-[#ff7a59]/20 via-[#ff7a59]/4 to-transparent blur-2xl opacity-0 pointer-events-none transition-opacity duration-300 will-change-transform"
+        className="absolute -top-56 -left-56 w-[450px] h-[450px] rounded-full bg-radial from-[#ff7a59]/24 dark:from-[#ff7a59]/28 via-[#ff7a59]/8 to-transparent blur-3xl opacity-0 pointer-events-none transition-opacity duration-300 will-change-transform"
       />
 
-      {/* ── Interactive Canvas Particle & Constellation Field ── */}
+      {/* ── Interactive Canvas Wave Lines, Particles & Constellation Field ── */}
       <canvas ref={canvasRef} className="absolute inset-0 w-full h-full" />
 
       {/* ── Subtle Geometric Grid / Texture Lines ── */}
       <div
-        className="absolute inset-0 opacity-[0.035] dark:opacity-[0.045] pointer-events-none"
+        className="absolute inset-0 opacity-[0.04] dark:opacity-[0.055] pointer-events-none"
         style={{
-          backgroundImage: `radial-gradient(currentColor 1px, transparent 1px)`,
-          backgroundSize: "32px 32px",
+          backgroundImage: `radial-gradient(currentColor 1.2px, transparent 1.2px)`,
+          backgroundSize: "36px 36px",
         }}
       />
 
