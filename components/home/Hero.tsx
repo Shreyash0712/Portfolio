@@ -5,23 +5,17 @@ import { FaGithub, FaStar, FaCodeBranch, FaUsers } from "react-icons/fa6";
 import {
   FiGitCommit,
   FiArrowUpRight,
-  FiArrowRight,
   FiCode,
   FiLayers,
   FiCpu,
-  FiFolder,
-  FiBookOpen,
-  FiUser,
-  FiMail,
-  FiFileText,
 } from "react-icons/fi";
 
 const heroNavLinks = [
-  { label: "Projects", href: "/projects", icon: FiFolder },
-  { label: "Blogs", href: "/blogs", icon: FiBookOpen },
-  { label: "About", href: "/about", icon: FiUser },
-  { label: "Contact", href: "/contact", icon: FiMail },
-  { label: "Resume", href: "/resume", icon: FiFileText },
+  { label: "Projects", href: "/projects" },
+  { label: "Blogs", href: "/blogs" },
+  { label: "About", href: "/about" },
+  { label: "Contact", href: "/contact" },
+  { label: "Resume", href: "/resume" },
 ];
 
 interface ContributionDay {
@@ -63,48 +57,42 @@ export default async function Hero() {
       <HeroBackground />
 
       {/* ── First Viewport: Full-Page Hero Presentation ── */}
-      <div className="min-h-screen min-h-svh w-full max-w-6xl mx-auto px-6 md:px-12 flex flex-col justify-between items-start text-left relative z-10 pt-20 sm:pt-24 md:pt-20 pb-10">
-        <div className="max-w-3xl flex flex-col items-start text-left my-auto">
-          {/* Handwritten Main Artist Headline */}
-          <h1 className="font-handwriting text-6xl sm:text-7xl md:text-8xl lg:text-9xl font-semibold tracking-wide leading-none mb-6 sm:mb-8 select-none text-left">
-            <span className="text-foreground">Shreyash</span>{" "}
-            <span className="text-[#ff7a59] dark:text-[#ff8f73] inline-block transform -rotate-1 transition-colors">
-              Swami
-            </span>
-          </h1>
+      <div className="min-h-screen min-h-svh w-full max-w-6xl mx-auto px-6 md:px-12 flex flex-col justify-between relative z-10 pt-20 sm:pt-24 md:pt-16 pb-8">
+        {/* Main Content: Headline on Left, Stylized Handwritten Links on Right */}
+        <div className="w-full flex flex-col md:flex-row md:items-center md:justify-between justify-between my-auto gap-8 sm:gap-12 pt-4 md:pt-0">
+          {/* Left: Main Artist Headline (distinct lines across mobile and desktop) */}
+          <div className="flex flex-col items-start text-left select-none">
+            <h1 className="font-handwriting text-6xl sm:text-7xl md:text-8xl lg:text-9xl font-semibold tracking-wide leading-[0.92] sm:leading-[0.95] text-left">
+              <span className="block text-foreground">Shreyash</span>
+              <span className="block text-[#ff7a59] dark:text-[#ff8f73] transform -rotate-1 transition-colors mt-0.5 sm:mt-1 md:mt-2">
+                Swami
+              </span>
+            </h1>
+          </div>
 
-          {/* Stylized Hero Navigation Links */}
+          {/* Right: Modern, Creative Handwritten Navigation */}
           <nav
             aria-label="Hero navigation"
-            className="flex flex-wrap items-center gap-2.5 sm:gap-3 mb-8 sm:mb-10 max-w-2xl"
+            className="flex flex-col items-start md:items-end justify-center gap-2.5 sm:gap-3.5 md:gap-5 lg:gap-6"
           >
-            {heroNavLinks.map(({ label, href, icon: Icon }) => (
+            {heroNavLinks.map(({ label, href }) => (
               <Link
                 key={href}
                 href={href}
-                className="group inline-flex items-center gap-2 px-4 sm:px-5 py-2.5 rounded-full text-xs sm:text-sm font-medium tracking-wide border border-border-primary/60 bg-background/60 dark:bg-background/40 backdrop-blur-md text-foreground hover:bg-foreground hover:text-background hover:border-foreground/30 shadow-xs hover:shadow-md hover:-translate-y-0.5 active:translate-y-0 transition-all duration-200"
+                className="group flex items-center gap-2 sm:gap-3 font-handwriting text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-medium tracking-wide text-foreground/80 dark:text-foreground/85 hover:text-[#ff7a59] dark:hover:text-[#ff8f73] transition-all duration-300 md:hover:-translate-x-3 hover:translate-x-2 select-none"
               >
-                <Icon className="w-3.5 h-3.5 text-text-muted group-hover:text-inherit transition-colors" />
-                <span>{label}</span>
-                <FiArrowUpRight className="w-3 h-3 opacity-40 group-hover:opacity-100 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-all" />
+                <span className="relative">
+                  {label}
+                  <span className="absolute left-0 -bottom-1 w-0 h-[2px] bg-[#ff7a59] dark:bg-[#ff8f73] transition-all duration-300 group-hover:w-full rounded-full" />
+                </span>
+                <FiArrowUpRight className="w-5 h-5 sm:w-6 sm:h-6 md:w-7 md:h-7 opacity-30 group-hover:opacity-100 group-hover:translate-x-1 group-hover:-translate-y-1 transition-all duration-300 text-[#ff7a59] dark:text-[#ff8f73]" />
               </Link>
             ))}
           </nav>
-
-          {/* Single Focused "Get in Touch" Action */}
-          <div className="flex items-center justify-start">
-            <Link
-              href="/contact"
-              className="inline-flex items-center gap-2 px-7 py-3 rounded-full text-sm font-medium bg-foreground text-background hover:opacity-90 shadow-sm hover:scale-105 transition-all"
-            >
-              <span>Get in Touch</span>
-              <FiArrowRight className="w-4 h-4" />
-            </Link>
-          </div>
         </div>
 
         {/* Subtle Scroll Down Indicator */}
-        <div className="mt-auto pb-4 flex items-center gap-2 text-text-muted/70 text-[11px] tracking-[0.2em] uppercase pointer-events-none select-none">
+        <div className="mt-auto pt-4 flex items-center gap-2 text-text-muted/70 text-[11px] tracking-[0.2em] uppercase pointer-events-none select-none">
           <span>Scroll</span>
           <svg className="w-3.5 h-3.5 animate-bounce" fill="none" viewBox="0 0 24 24" stroke="currentColor">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 14l-7 7m0 0l-7-7" />
