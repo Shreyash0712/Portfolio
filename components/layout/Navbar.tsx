@@ -17,10 +17,19 @@ const links = [
 
 export default function Navbar() {
   const pathname = usePathname();
-  const isHome = pathname === "/";
+  const currentPath = pathname || "/";
+  const isHome = currentPath === "/";
   const [menuOpen, setMenuOpen] = useState(false);
   const [prevPathname, setPrevPathname] = useState(pathname);
   const [scrolled, setScrolled] = useState(false);
+
+  // Helper to determine active link
+  const isLinkActive = (href: string) => {
+    if (href === "/") {
+      return currentPath === "/";
+    }
+    return currentPath === href || currentPath.startsWith(`${href}/`);
+  };
 
   // Close menu on route change during render
   if (prevPathname !== pathname) {
@@ -31,7 +40,7 @@ export default function Navbar() {
   // Track scroll position to transition from transparent to frosted glass
   useEffect(() => {
     const handleScroll = () => {
-      setScrolled(window.scrollY > 20);
+      setScrolled(window.scrollY > 40);
     };
     handleScroll();
     window.addEventListener("scroll", handleScroll, { passive: true });
@@ -51,10 +60,10 @@ export default function Navbar() {
   return (
     <>
       <nav
-        className={`fixed top-0 left-0 right-0 z-50 flex items-center justify-between px-6 md:px-12 h-[72px] md:h-[80px] transition-all duration-300 ${
+        className={`fixed top-0 left-0 right-0 z-50 flex items-center justify-between px-6 md:px-12 h-[72px] md:h-[80px] transition-all duration-300 ease-in-out ${
           isHome && !scrolled
-            ? "bg-transparent border-b border-transparent"
-            : "bg-background/80 backdrop-blur-md border-b border-border-primary/40 shadow-xs"
+            ? "bg-transparent border-b border-transparent md:-translate-y-full md:opacity-0 md:pointer-events-none"
+            : "bg-background/80 backdrop-blur-md border-b border-border-primary/40 shadow-xs translate-y-0 opacity-100 pointer-events-auto"
         }`}
       >
         {/* Clean Logo without enclosing circle */}
@@ -74,7 +83,7 @@ export default function Navbar() {
         {/* Desktop Navigation Links */}
         <div className="hidden md:flex items-center gap-1 bg-hover-bg/60 px-2.5 py-1.5 rounded-full border border-border-primary/40 backdrop-blur-xs shadow-xs">
           {links.map(({ label, href }) => {
-            const active = pathname === href;
+            const active = isLinkActive(href);
             return (
               <Link
                 key={href}
@@ -164,7 +173,7 @@ export default function Navbar() {
             />
           </div>
           {links.map(({ label, href }, i) => {
-            const active = pathname === href;
+            const active = isLinkActive(href);
             return (
               <Link
                 key={href}
@@ -209,8 +218,8 @@ export default function Navbar() {
         </div>
       </div>
 
-      {/* Spacer so content doesn't hide under fixed navbar */}
-      <div className="h-[var(--navbar-h)]" />
+      {/* Spacer so content doesn't hide under fixed navbar on non-home pages */}
+      {!isHome && <div className="h-[var(--navbar-h)]" />}
     </>
   );
 }
