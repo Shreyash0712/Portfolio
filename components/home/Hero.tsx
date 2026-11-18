@@ -1,6 +1,8 @@
 import Link from "next/link";
 import { getGithubStats } from "@/lib/github";
-import HeroBackground from "@/components/home/HeroBackground";
+import HeroReactiveBackground from "@/components/home/HeroReactiveBackground";
+// Preserved: Photo parallax background component (available to switch back anytime)
+// import HeroBackground from "@/components/home/HeroBackground";
 import { FaGithub, FaStar, FaCodeBranch, FaUsers } from "react-icons/fa6";
 import {
   FiGitCommit,
@@ -53,8 +55,8 @@ export default async function Hero() {
 
   return (
     <section className="relative w-full overflow-hidden flex flex-col items-center">
-      {/* ── Artistic Full-Width Parallax Background with Sticky Smooth Scrolling ── */}
-      <HeroBackground />
+      {/* ── Interactive Reactive Background (React Bits Inspired) ── */}
+      <HeroReactiveBackground />
 
       {/* ── First Viewport: Full-Page Hero Presentation ── */}
       <div className="min-h-screen min-h-svh w-full max-w-6xl mx-auto px-6 md:px-12 flex flex-col justify-between relative z-10 pt-20 sm:pt-24 md:pt-16 pb-8">
