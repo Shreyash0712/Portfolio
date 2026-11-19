@@ -60,7 +60,7 @@ export default async function Hero() {
       <HeroArtisticBackground />
 
       {/* ── First Viewport: Full-Page Hero Presentation ── */}
-      <div className="min-h-screen min-h-svh w-full max-w-6xl mx-auto px-6 md:px-12 flex flex-col justify-between relative z-10 pt-20 sm:pt-24 md:pt-16 pb-8">
+      <div className="min-h-screen min-h-svh w-full max-w-6xl mx-auto px-6 md:px-12 flex flex-col justify-center relative z-10 pt-20 sm:pt-24 md:pt-16 pb-12 sm:pb-16">
         {/* Main Content: Headline on Left, Stylized Handwritten Links on Right */}
         <div className="w-full flex flex-col md:flex-row md:items-center md:justify-between justify-between my-auto gap-8 sm:gap-12 pt-4 md:pt-0">
           {/* Left: Main Artist Headline (distinct lines across mobile and desktop) */}
@@ -92,14 +92,6 @@ export default async function Hero() {
               </Link>
             ))}
           </nav>
-        </div>
-
-        {/* Subtle Scroll Down Indicator */}
-        <div className="mt-auto pt-4 flex items-center gap-2 text-text-muted/70 text-[11px] tracking-[0.2em] uppercase pointer-events-none select-none">
-          <span>Scroll</span>
-          <svg className="w-3.5 h-3.5 animate-bounce" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 14l-7 7m0 0l-7-7" />
-          </svg>
         </div>
       </div>
 

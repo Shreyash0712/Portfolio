@@ -70,27 +70,18 @@
 }
 
 html {
-  overflow-y: scroll;
-  scrollbar-width: thin;
-  scrollbar-color: var(--border-primary) transparent;
+  overflow-y: auto;
+  scrollbar-width: none; /* Firefox */
+  -ms-overflow-style: none; /* IE and Edge */
 }
 
-::-webkit-scrollbar {
-  width: 6px;
-  height: 6px;
-}
-
-::-webkit-scrollbar-track {
-  background: transparent;
-}
-
-::-webkit-scrollbar-thumb {
-  background-color: var(--border-primary);
-  border-radius: 9999px;
-}
-
-::-webkit-scrollbar-thumb:hover {
-  background-color: var(--text-muted);
+/* Hide scrollbar for Chrome, Safari, Opera and all WebKit browsers */
+html::-webkit-scrollbar,
+body::-webkit-scrollbar,
+*::-webkit-scrollbar {
+  display: none !important;
+  width: 0 !important;
+  height: 0 !important;
 }
 
 /* ── Blog prose styles ────────────────────────────────────── */
