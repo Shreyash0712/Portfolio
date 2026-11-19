@@ -58,26 +58,54 @@ export default function HeroArtisticBackground() {
         >
           {/* ── Dark Mode: Nocturnal Sumi-e Ink Wash Nature Art ── */}
           <div className="hidden dark:block absolute inset-0 w-full h-full">
-            <Image
-              src="/nature-dark.jpg"
-              alt="Minimalist sumi-e nocturnal mountain landscape"
-              fill
-              priority
-              className="object-cover object-[62%_center] sm:object-center opacity-85 filter contrast-[1.05] brightness-[0.98] select-none"
-              sizes="100vw"
-            />
+            {/* Mobile (Dedicated 9:16 vertical portrait composition) */}
+            <div className="block sm:hidden absolute inset-0 w-full h-full">
+              <Image
+                src="/nature-dark-mobile.jpg"
+                alt="Minimalist nocturnal sumi-e mountain and pine landscape for mobile"
+                fill
+                priority
+                className="object-cover object-center opacity-90 filter contrast-[1.05] brightness-[0.98] select-none"
+                sizes="100vw"
+              />
+            </div>
+            {/* Desktop / Tablet (Widescreen landscape composition) */}
+            <div className="hidden sm:block absolute inset-0 w-full h-full">
+              <Image
+                src="/nature-dark.jpg"
+                alt="Minimalist sumi-e nocturnal mountain landscape"
+                fill
+                priority
+                className="object-cover object-center opacity-85 filter contrast-[1.05] brightness-[0.98] select-none"
+                sizes="100vw"
+              />
+            </div>
           </div>
 
           {/* ── Light Mode: Warm Watercolor Sumi-e Nature Art ── */}
           <div className="block dark:hidden absolute inset-0 w-full h-full">
-            <Image
-              src="/nature-light.jpg"
-              alt="Minimalist sumi-e watercolor mountain landscape"
-              fill
-              priority
-              className="object-cover object-[62%_center] sm:object-center opacity-80 filter contrast-[1.04] brightness-[1.02] select-none"
-              sizes="100vw"
-            />
+            {/* Mobile (Dedicated 9:16 vertical portrait composition) */}
+            <div className="block sm:hidden absolute inset-0 w-full h-full">
+              <Image
+                src="/nature-light-mobile.jpg"
+                alt="Minimalist sumi-e watercolor landscape on rice paper for mobile"
+                fill
+                priority
+                className="object-cover object-center opacity-85 filter contrast-[1.04] brightness-[1.01] select-none"
+                sizes="100vw"
+              />
+            </div>
+            {/* Desktop / Tablet (Widescreen landscape composition) */}
+            <div className="hidden sm:block absolute inset-0 w-full h-full">
+              <Image
+                src="/nature-light.jpg"
+                alt="Minimalist sumi-e watercolor mountain landscape"
+                fill
+                priority
+                className="object-cover object-center opacity-80 filter contrast-[1.04] brightness-[1.02] select-none"
+                sizes="100vw"
+              />
+            </div>
           </div>
         </div>
       </div>
